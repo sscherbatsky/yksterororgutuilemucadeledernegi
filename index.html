@@ -592,8 +592,8 @@
                 <textarea class="input-grup" id="notDefteri" rows="2" placeholder="Bugün ne çalıştın?"></textarea>
                 <button class="btn-ikincil" onclick="notuKaydet()">💾 Notu Kaydet</button>
                 <hr class="cizgi">
-                <div class="input-grup"><label>🎯 Hedef Puan (TYT)</label><input type="number" id="hedefPuan" placeholder="100"></div>
-                <div class="input-grup"><label>🏫 Hedef Sıralama/Üniversite</label><input type="text" id="hedefSiralama" placeholder="İlk 5000, Boğaziçi..."></div>
+                <div class="input-grup"><label>🎯 Hedef Net (TYT)</label><input type="number" id="hedefPuan" placeholder="120"></div>
+                <div class="input-grup"><label>🏫 Hedef Sıralama/Üniversite</label><input type="text" id="hedefSiralama" placeholder="İlk 5000, Çapa..."></div>
                 <button class="btn-ucuncu" onclick="hedefKaydet()">🎯 Hedefleri Kaydet</button>
                 <div id="hedefGoster" style="margin-top:4px; font-size:0.8rem; color:#b34a6e;"></div>
             </div>
@@ -1218,7 +1218,7 @@
             if (denemeler.length >= 10) rozetler.push('🥈 10 Deneme');
             if (denemeler.length >= 20) rozetler.push('🥇 20 Deneme');
             if (denemeler.length > 0 && denemeler[denemeler.length-1].tyt >= 100) rozetler.push('🌟 TYT 100+');
-            if (denemeler.length > 0 && denemeler[denemeler.length-1].tyt >= 110) rozetler.push('👑 TYT 110+');
+            if (denemeler.length > 0 && denemeler[denemeler.length-1].tyt >= 120) rozetler.push('👑 TYT FULL!');
             if (toplamCalisma >= 50) rozetler.push('⏳ 50 Saat');
             if (toplamCalisma >= 100) rozetler.push('🔥 100 Saat');
             if (konular.length > 0 && tamamlananlar.length === konular.length) rozetler.push('✅ Tüm Konular Tam');
