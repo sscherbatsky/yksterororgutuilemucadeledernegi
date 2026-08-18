@@ -174,6 +174,44 @@
             color: #d6336c;
             white-space: nowrap;
         }
+        /* Mila Asistan */
+        .mila-asistan {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(214, 51, 108, 0.06);
+            padding: 4px 16px 4px 8px;
+            border-radius: 40px;
+            border: 1px solid rgba(214, 51, 108, 0.1);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #b34a6e;
+            max-width: 280px;
+        }
+        .mila-asistan img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .mila-asistan .mila-soz {
+            font-style: italic;
+            font-size: 0.75rem;
+            color: #4a2c3a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        body.dark .mila-asistan {
+            background: rgba(214, 51, 108, 0.1);
+            border-color: rgba(214, 51, 108, 0.2);
+        }
+        body.dark .mila-asistan .mila-soz {
+            color: #e0d6e8;
+        }
+
         .tema-buton {
             background: rgba(214, 51, 108, 0.06);
             border: 1px solid rgba(214, 51, 108, 0.12);
@@ -653,6 +691,7 @@
             .login-box { padding: 28px 20px; margin: 16px; }
             .input-row { flex-direction: column; gap: 4px; }
             .canvas-kalem { height: 200px; }
+            .mila-asistan { max-width: 100%; }
         }
     </style>
 </head>
@@ -704,7 +743,7 @@
             </div>
         </div>
 
-        <!-- ÜST BAR -->
+        <!-- ÜST BAR (Mila eklendi) -->
         <div class="ust-bar">
             <div class="kullanici-bilgi">
                 <span>👤</span>
@@ -714,6 +753,11 @@
             </div>
             <div class="sag-grup">
                 <span class="geri-sayim" id="geriSayim">🎯 YKS: 0 gün</span>
+                <!-- Mila Asistan -->
+                <div class="mila-asistan" id="milaAsistan">
+                    <img src="fotoğraflar/mila.png" alt="Mila" id="milaFoto" onerror="this.style.display='none'">
+                    <span id="milaSoz">✨ Merhaba, hedefine odaklan!</span>
+                </div>
                 <button class="tema-buton" onclick="temaDegistir()">🌙</button>
             </div>
         </div>
@@ -828,16 +872,7 @@
                 </div>
             </div>
 
-            <!-- 9. MOTİVASYON -->
-            <div class="card" style="grid-column: span 1;">
-                <h2>💬 Günün Sözü</h2>
-                <div id="motivasyonSozu" style="font-style:italic; font-size:1rem; min-height:60px; padding:14px; background:rgba(214,51,108,0.03); border-radius:24px; text-align:center; display:flex; align-items:center; justify-content:center; border:1px solid rgba(214,51,108,0.04);">
-                    ✨ Başarı, azmin zaferidir.
-                </div>
-                <button class="btn-ikincil" onclick="motivasyonDegistir()" style="margin-top:10px;">🔄 Yeni Söz</button>
-            </div>
-
-            <!-- 10. İLERLEME & YEDEKLEME -->
+            <!-- 9. İLERLEME & YEDEKLEME -->
             <div class="card" style="grid-column: span 1;">
                 <h2>📊 İlerleme & Yedekle</h2>
                 <div style="margin-bottom: 12px;">
@@ -869,7 +904,7 @@
                 </div>
             </div>
 
-            <!-- 11. SORU ÇÖZ (GÜNCELLENDİ) -->
+            <!-- 10. SORU ÇÖZ (GÜNCELLENDİ) -->
             <div class="card" style="grid-column: span 1;">
                 <h2>📝 Soru Çöz <span class="kucuk">rastgele</span></h2>
                 <div id="soruAlan">
@@ -1075,11 +1110,39 @@
                     aytLabel.textContent = bolum === 'sayisal' ? '📗 Sayısal AYT' : '📗 EA AYT';
                     document.getElementById('ortalamaAytLabel').textContent = bolum === 'sayisal' ? '📗 Ort. Sayısal AYT' : '📗 Ort. EA AYT';
                 }
+                // Mila'yı güncelle
+                milaGuncelle(data.currentUser);
                 tumVerileriGoster();
             } else {
                 document.getElementById('anaSayfa').classList.add('hidden');
                 document.getElementById('loginOverlay').classList.remove('hidden');
             }
+        }
+
+        // ==========================================================
+        //  MİLA ASİSTAN
+        // ==========================================================
+        const milaSozler = [
+            (isim) => `✨ Merhaba ${isim}, bugün harika bir gün!`,
+            (isim) => `💪 ${isim}, hedefine odaklan, başaracaksın!`,
+            (isim) => `📚 ${isim}, her gün biraz daha iyiye git.`,
+            (isim) => `🔥 ${isim}, zorluklar seni güçlendirir.`,
+            (isim) => `🌟 ${isim}, hayallerine bir adım daha yaklaş!`,
+            (isim) => `⏳ ${isim}, zaman yönetimi başarının anahtarıdır.`,
+            (isim) => `🚀 ${isim}, pes etme, daha yolun başındasın.`,
+            (isim) => `🏆 ${isim}, azimle çalışan kazanır.`,
+            (isim) => `🌸 ${isim}, sakin ol, her şey zamanla olur.`,
+            (isim) => `💡 ${isim}, her büyük başarı küçük bir adımla başlar.`
+        ];
+        let milaIndex = 0;
+
+        function milaGuncelle(kullaniciAdi) {
+            const soz = document.getElementById('milaSoz');
+            if (!soz) return;
+            const isim = kullaniciAdi || 'Ziyaretçi';
+            // Rastgele bir söz seç
+            const randomIndex = Math.floor(Math.random() * milaSozler.length);
+            soz.textContent = milaSozler[randomIndex](isim);
         }
 
         // ==========================================================
@@ -1102,7 +1165,7 @@
             planGoster();
             istatistikGuncelle();
             rozetleriGuncelle();
-            motivasyonDegistir();
+            // motivasyonDegistir() kaldırıldı, yerine Mila
             geriSayimiGuncelle();
             puanTahminiGuncelle();
             ilerlemeCubugunuGuncelle();
@@ -1511,29 +1574,7 @@
         }
 
         // ==========================================================
-        //  10. MOTİVASYON
-        // ==========================================================
-        const motivasyonlar = [
-            "✨ Başarı, azmin zaferidir.",
-            "💪 Her gün biraz daha iyiye git.",
-            "📚 Bugünün çalışması, yarının başarısıdır.",
-            "🔥 Zorluklar seni güçlendirir.",
-            "🌟 Hedefine odaklan, gerisi gelir.",
-            "⏳ Zaman yönetimi başarının anahtarıdır.",
-            "💡 Her büyük başarı küçük bir adımla başlar.",
-            "🚀 Pes etme, daha yolun başındasın.",
-            "🏆 Azimle çalışan kazanır.",
-            "🌸 Sakin ol, her şey zamanla olur."
-        ];
-        let mevcutMotivasyon = 0;
-
-        function motivasyonDegistir() {
-            mevcutMotivasyon = (mevcutMotivasyon + 1) % motivasyonlar.length;
-            document.getElementById('motivasyonSozu').textContent = motivasyonlar[mevcutMotivasyon];
-        }
-
-        // ==========================================================
-        //  11. TEMA
+        //  10. TEMA
         // ==========================================================
         function temaDegistir() {
             document.body.classList.toggle('dark');
@@ -1542,7 +1583,7 @@
         }
 
         // ==========================================================
-        //  12. İLERLEME ÇUBUKLARI VE YEDEKLEME
+        //  11. İLERLEME ÇUBUKLARI VE YEDEKLEME
         // ==========================================================
         function verileriDisariAktar() {
             const data = localStorage.getItem('yks_app_data');
@@ -1679,7 +1720,7 @@
         }
 
         // ==========================================================
-        //  13. SORU ÇÖZ (GÜNCELLENDİ)
+        //  12. SORU ÇÖZ (GÜNCELLENDİ) - APPLE PENCIL DÜZELTİLDİ
         // ==========================================================
         let mevcutSoru = null;
         let secilenCevap = null;
@@ -1699,7 +1740,9 @@
             canvas = canvasEl;
             ctx = canvas.getContext('2d');
             
-            canvas.width = canvasEl.offsetWidth || 400;
+            // Gerçek boyutları ayarla
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width || 400;
             canvas.height = 300;
             canvas.style.height = '300px';
             
@@ -1736,12 +1779,23 @@
             img.onerror = function() {};
         }
 
+        function koordinatAl(clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            // Canvas boyutuna göre ölçekle
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
         function basla(e) {
             if (!canvas) return;
             cizim = true;
-            const rect = canvas.getBoundingClientRect();
-            sonX = e.clientX - rect.left;
-            sonY = e.clientY - rect.top;
+            const pos = koordinatAl(e.clientX, e.clientY);
+            sonX = pos.x;
+            sonY = pos.y;
             ctx.beginPath();
             ctx.moveTo(sonX, sonY);
             if (silgiModu) {
@@ -1765,22 +1819,20 @@
 
         function ciz(e) {
             if (!cizim || !canvas) return;
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            ctx.lineTo(x, y);
+            const pos = koordinatAl(e.clientX, e.clientY);
+            ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
-            sonX = x;
-            sonY = y;
+            sonX = pos.x;
+            sonY = pos.y;
         }
 
         function baslaTouch(e) {
             e.preventDefault();
             if (!canvas) return;
             const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            sonX = touch.clientX - rect.left;
-            sonY = touch.clientY - rect.top;
+            const pos = koordinatAl(touch.clientX, touch.clientY);
+            sonX = pos.x;
+            sonY = pos.y;
             if (touch.force && touch.force > 0) {
                 basinc = Math.min(touch.force * 2, 1);
                 ctx.lineWidth = cizimBoyutu * basinc;
@@ -1812,17 +1864,15 @@
             e.preventDefault();
             if (!cizim || !canvas) return;
             const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
+            const pos = koordinatAl(touch.clientX, touch.clientY);
             if (touch.force && touch.force > 0) {
                 basinc = Math.min(touch.force * 2, 1);
                 ctx.lineWidth = cizimBoyutu * basinc;
             }
-            ctx.lineTo(x, y);
+            ctx.lineTo(pos.x, pos.y);
             ctx.stroke();
-            sonX = x;
-            sonY = y;
+            sonX = pos.x;
+            sonY = pos.y;
         }
 
         function dur(e) {
