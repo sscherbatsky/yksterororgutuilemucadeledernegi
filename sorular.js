@@ -1,20 +1,19 @@
-// sorular.js - Örnek soru verileri
+// sorular.js
 const sorular = [
     {
         id: 1,
-        soruMetni: "Türkiye'nin başkenti neresidir?",
-        sıklar: ["Ankara", "İstanbul", "İzmir", "Bursa", "Antalya"],
-        dogruCevap: "A",
-        cozumLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",  // Örnek link
-        resimUrl: "" // İstersen fotoğraf URL'si ekleyebilirsin
+        soruMetni: "ifadesinin eșiti aşağıdakilerden hangisidir?",
+        sıklar: ["2x-4y", "4y-4x", "-4x", "2y", "4y"],
+        dogruCevap: "B",
+        cozumLink: "https://youtu.be/37e-Ri7IMsM?si=GoVB7wpVt0N5Zisv",
+        resim: "mutlak_deger_1.png"   // fotoğraflar/mutlak_deger_1.png
     },
     {
         id: 2,
-        soruMetni: "2+2 kaçtır?",
-        sıklar: ["3", "4", "5", "6", "7"],
-        dogruCevap: "B",
-        cozumLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        resimUrl: ""
-    },
-    // Yeni sorular eklemek için aynı formatta devam et
+        soruMetni: "Buna göre a+b+c ifadesinin alabileceği en küçük değer ile en büyük değerin çarpımı kaçtır?",
+        sıklar: ["186", "234", "294", "300", "312"],
+        dogruCevap: "C",
+        cozumLink: "https://youtube.com/shorts/J0pzs-DDYnA?si=tPPRIm7vGqKJG274",
+        resim: "uslu_ifadeler_1"   // boş bırakırsan resim gösterilmez
+    }
 ];

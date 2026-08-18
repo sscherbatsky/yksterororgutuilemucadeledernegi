@@ -841,7 +841,7 @@
                 </div>
             </div>
 
-            <!-- 11. SORU ÇÖZ (YENİ) -->
+                        <!-- 11. SORU ÇÖZ -->
             <div class="card" style="grid-column: span 1;">
                 <h2>📝 Soru Çöz <span class="kucuk">rastgele</span></h2>
                 <div id="soruAlan">
@@ -1737,7 +1737,7 @@
             }
         }
 
-        function rastgeleSoruGetir() {
+                function rastgeleSoruGetir() {
             if (typeof sorular === 'undefined' || !sorular.length) {
                 alert('❌ Sorular yüklenemedi! Lütfen sorular.js dosyasını kontrol edin.');
                 return;
@@ -1752,14 +1752,17 @@
             // Soru metni
             document.getElementById('soruMetni').textContent = mevcutSoru.soruMetni;
 
-            // Resim (varsa)
+            // Resim gösterimi (dosya adı ile)
             const resimDiv = document.getElementById('soruResmi');
             resimDiv.innerHTML = '';
-            if (mevcutSoru.resimUrl && mevcutSoru.resimUrl.trim() !== '') {
+            if (mevcutSoru.resim && mevcutSoru.resim.trim() !== '') {
                 const img = document.createElement('img');
-                img.src = mevcutSoru.resimUrl;
+                img.src = `fotoğraflar/${mevcutSoru.resim}`;
                 img.className = 'soru-resim';
                 img.alt = 'Soru görseli';
+                img.onerror = function() {
+                    this.style.display = 'none'; // dosya bulunamazsa gizle
+                };
                 resimDiv.appendChild(img);
             }
 
@@ -1773,7 +1776,6 @@
                 btn.textContent = `${String.fromCharCode(65 + index)}. ${sik}`;
                 btn.dataset.sik = String.fromCharCode(65 + index);
                 btn.onclick = function() {
-                    // Seçili olanı temizle
                     document.querySelectorAll('.sik-buton').forEach(b => b.classList.remove('secilen'));
                     this.classList.add('secilen');
                     secilenCevap = this.dataset.sik;
