@@ -14,6 +14,6 @@ const sorular = [
         sıklar: ["186", "234", "294", "300", "312"],
         dogruCevap: "C",
         cozumLink: "https://youtube.com/shorts/J0pzs-DDYnA?si=tPPRIm7vGqKJG274",
-        resim: "uslu_ifadeler_1"   // boş bırakırsan resim gösterilmez
+        resim: "uslu_ifadeler_1.png"   // boş bırakırsan resim gösterilmez
     }
 ];
