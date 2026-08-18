@@ -134,6 +134,7 @@
             gap: 12px;
             font-weight: 600;
             font-size: 0.95rem;
+            flex: 1;
         }
         .ust-bar .kullanici-bilgi span {
             color: #d6336c;
@@ -174,39 +175,40 @@
             color: #d6336c;
             white-space: nowrap;
         }
-        /* Mila Asistan */
+        /* Mila Asistan - BÜYÜK ve SOL ÜST */
         .mila-asistan {
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(214, 51, 108, 0.06);
-            padding: 4px 16px 4px 8px;
-            border-radius: 40px;
-            border: 1px solid rgba(214, 51, 108, 0.1);
-            font-size: 0.85rem;
-            font-weight: 500;
+            gap: 12px;
+            background: rgba(214, 51, 108, 0.08);
+            padding: 8px 20px 8px 12px;
+            border-radius: 60px;
+            border: 1px solid rgba(214, 51, 108, 0.15);
+            font-size: 1rem;
+            font-weight: 600;
             color: #b34a6e;
-            max-width: 280px;
+            max-width: 400px;
+            box-shadow: 0 2px 12px rgba(214, 51, 108, 0.08);
         }
         .mila-asistan img {
-            width: 32px;
-            height: 32px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         .mila-asistan .mila-soz {
             font-style: italic;
-            font-size: 0.75rem;
+            font-size: 0.9rem;
             color: #4a2c3a;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         body.dark .mila-asistan {
-            background: rgba(214, 51, 108, 0.1);
-            border-color: rgba(214, 51, 108, 0.2);
+            background: rgba(214, 51, 108, 0.15);
+            border-color: rgba(214, 51, 108, 0.25);
         }
         body.dark .mila-asistan .mila-soz {
             color: #e0d6e8;
@@ -594,6 +596,143 @@
             margin-top: 8px;
         }
 
+        /* ===== FULLSCREEN SORU ÇÖZÜM ===== */
+        .soru-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+        .soru-fullscreen.active {
+            display: flex;
+        }
+        .soru-fullscreen .soru-kutu-full {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            padding: 30px 35px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+        }
+        body.dark .soru-fullscreen .soru-kutu-full {
+            background: #2d2d44;
+            color: #e0d6e8;
+        }
+        .soru-fullscreen .kapat-buton {
+            position: absolute;
+            top: 12px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #b34a6e;
+            transition: 0.2s;
+        }
+        .soru-fullscreen .kapat-buton:hover {
+            color: #d6336c;
+            transform: scale(1.1);
+        }
+        .soru-fullscreen .soru-metni-full {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .soru-fullscreen .soru-resmi-full {
+            max-width: 100%;
+            border-radius: 16px;
+            margin: 8px 0;
+        }
+        .soru-fullscreen .siklar-full {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .soru-fullscreen .sik-buton-full {
+            padding: 10px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(214, 51, 108, 0.2);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .soru-fullscreen .sik-buton-full:hover {
+            background: rgba(214, 51, 108, 0.1);
+        }
+        .soru-fullscreen .sik-buton-full.secilen-full {
+            background: #d6336c;
+            color: white;
+            border-color: #d6336c;
+        }
+        .soru-fullscreen .sik-buton-full.dogru-full {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        .soru-fullscreen .sik-buton-full.yanlis-full {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+        .soru-fullscreen .canvas-kalem-full {
+            border: 1px solid rgba(214, 51, 108, 0.2);
+            border-radius: 16px;
+            width: 100%;
+            height: 400px;
+            touch-action: none;
+            background: #fff;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="rgba(214,51,108,0.5)"/></svg>') 12 12, auto;
+        }
+        body.dark .soru-fullscreen .canvas-kalem-full {
+            background: #2d2d44;
+        }
+        .soru-fullscreen .toolbar-full {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin: 10px 0;
+            background: rgba(214, 51, 108, 0.05);
+            border-radius: 40px;
+            padding: 8px 14px;
+        }
+        .soru-fullscreen .toolbar-full button {
+            background: rgba(214, 51, 108, 0.1);
+            border: 1px solid rgba(214, 51, 108, 0.2);
+            border-radius: 30px;
+            font-weight: 500;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .soru-fullscreen .toolbar-full button:hover {
+            background: rgba(214, 51, 108, 0.2);
+        }
+        .soru-fullscreen .toolbar-full input[type="color"] {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            padding: 2px;
+            cursor: pointer;
+            background: transparent;
+        }
+
         /* ===== FOOTER ===== */
         .footer-imza {
             text-align: center;
@@ -691,7 +830,10 @@
             .login-box { padding: 28px 20px; margin: 16px; }
             .input-row { flex-direction: column; gap: 4px; }
             .canvas-kalem { height: 200px; }
-            .mila-asistan { max-width: 100%; }
+            .mila-asistan { max-width: 100%; font-size: 0.85rem; padding: 6px 14px; }
+            .mila-asistan img { width: 36px; height: 36px; }
+            .soru-fullscreen .soru-kutu-full { padding: 20px; margin: 10px; }
+            .soru-fullscreen .canvas-kalem-full { height: 250px; }
         }
     </style>
 </head>
@@ -731,6 +873,47 @@
     </div>
 
     <!-- ========================================= -->
+    <!--  FULLSCREEN SORU ÇÖZÜM (Overlay)          -->
+    <!-- ========================================= -->
+    <div class="soru-fullscreen" id="soruFullscreen">
+        <div class="soru-kutu-full">
+            <button class="kapat-buton" onclick="soruFullscreenKapat()">✕</button>
+            <div id="soruMetniFull" class="soru-metni-full"></div>
+            <div id="soruResmiFull"></div>
+            <div id="siklarFull" class="siklar-full"></div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                <button class="btn-kucuk btn" onclick="cevabiKontrolEtFull()" style="width:auto;">✅ Kontrol Et</button>
+                <button class="btn-kucuk btn-ikincil" onclick="canvasTemizleFull()" style="width:auto;">🧹 Kalemi Temizle</button>
+            </div>
+            <div id="sonucMesajiFull" style="font-weight:600; margin:8px 0;"></div>
+            <div id="cozumLinkiFull" style="margin-top:8px;"></div>
+            <!-- Araç Çubuğu Full -->
+            <div class="toolbar-full" id="toolbarFull">
+                <div style="display:flex; gap:4px; align-items:center;">
+                    <span style="font-size:0.7rem; font-weight:600;">Renk:</span>
+                    <input type="color" id="renkSeciciFull" value="#d6336c">
+                </div>
+                <div style="display:flex; gap:4px; align-items:center;">
+                    <span style="font-size:0.7rem; font-weight:600;">Boyut:</span>
+                    <button class="btn-kucuk" data-boyut-full="2" style="width:auto; padding:2px 6px; font-size:0.6rem;">K</button>
+                    <button class="btn-kucuk" data-boyut-full="4" style="width:auto; padding:2px 6px; font-size:0.6rem;">M</button>
+                    <button class="btn-kucuk" data-boyut-full="6" style="width:auto; padding:2px 6px; font-size:0.6rem;">B</button>
+                </div>
+                <div style="display:flex; gap:4px; align-items:center;">
+                    <button class="btn-kucuk" id="silgiButonFull" style="width:auto; padding:2px 10px; font-size:0.7rem;">🧹 Silgi</button>
+                    <button class="btn-kucuk" id="cizgiTuruButonFull" style="width:auto; padding:2px 10px; font-size:0.7rem;">─ Düz</button>
+                </div>
+                <button class="btn-kucuk" onclick="canvasTemizleFull()" style="width:auto; padding:2px 10px; font-size:0.7rem;">🗑️ Tümünü Sil</button>
+            </div>
+            <!-- Canvas Full -->
+            <div style="margin:12px 0; position:relative;">
+                <canvas id="kalemCanvasFull" class="canvas-kalem-full"></canvas>
+                <div id="cozumIpucuFull" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); color:white; padding:4px 12px; border-radius:20px; font-size:0.7rem; display:none;">✏️ Çizim yapabilirsiniz</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================= -->
     <!--  ANA SAYFA (Sadece giriş yapınca görünür)  -->
     <!-- ========================================= -->
     <div id="anaSayfa" class="container hidden">
@@ -743,9 +926,14 @@
             </div>
         </div>
 
-        <!-- ÜST BAR (Mila eklendi) -->
+        <!-- ÜST BAR (Mila sol üstte) -->
         <div class="ust-bar">
             <div class="kullanici-bilgi">
+                <!-- Mila Asistan - Sol üst -->
+                <div class="mila-asistan" id="milaAsistan">
+                    <img src="fotoğraflar/mila.png" alt="Mila" id="milaFoto" onerror="this.style.display='none'">
+                    <span id="milaSoz" class="mila-soz">✨ Merhaba, hedefine odaklan!</span>
+                </div>
                 <span>👤</span>
                 <span id="aktifKullaniciAdi">Kullanıcı</span>
                 <span id="kullaniciBolum"></span>
@@ -753,11 +941,6 @@
             </div>
             <div class="sag-grup">
                 <span class="geri-sayim" id="geriSayim">🎯 YKS: 0 gün</span>
-                <!-- Mila Asistan -->
-                <div class="mila-asistan" id="milaAsistan">
-                    <img src="fotoğraflar/mila.png" alt="Mila" id="milaFoto" onerror="this.style.display='none'">
-                    <span id="milaSoz">✨ Merhaba, hedefine odaklan!</span>
-                </div>
                 <button class="tema-buton" onclick="temaDegistir()">🌙</button>
             </div>
         </div>
@@ -904,46 +1087,12 @@
                 </div>
             </div>
 
-            <!-- 10. SORU ÇÖZ (GÜNCELLENDİ) -->
+            <!-- 10. SORU ÇÖZ (Yeni buton) -->
             <div class="card" style="grid-column: span 1;">
                 <h2>📝 Soru Çöz <span class="kucuk">rastgele</span></h2>
                 <div id="soruAlan">
                     <div style="text-align:center; padding:10px 0;">
-                        <button class="btn btn-ikincil" onclick="rastgeleSoruGetir()">🎲 Yeni Soru</button>
-                    </div>
-                    <div id="soruKutu" style="display:none;">
-                        <div id="soruMetni" style="font-weight:600; font-size:1.1rem; margin-bottom:8px;"></div>
-                        <div id="soruResmi"></div>
-                        <div id="siklar" style="display:flex; flex-wrap:wrap; gap:6px; margin:12px 0;"></div>
-                        <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                            <button class="btn-kucuk btn" onclick="cevabiKontrolEt()" style="width:auto;">✅ Kontrol Et</button>
-                            <button class="btn-kucuk btn-ikincil" onclick="soruCozModu()" style="width:auto;">✏️ Soruyu Çöz</button>
-                        </div>
-                        <div id="sonucMesaji" style="font-weight:600; margin:8px 0;"></div>
-                        <div id="cozumLinki" style="margin-top:8px;"></div>
-                        <!-- Araç Çubuğu -->
-                        <div id="toolbar">
-                            <div style="display:flex; gap:4px; align-items:center;">
-                                <span style="font-size:0.7rem; font-weight:600;">Renk:</span>
-                                <input type="color" id="renkSecici" value="#d6336c">
-                            </div>
-                            <div style="display:flex; gap:4px; align-items:center;">
-                                <span style="font-size:0.7rem; font-weight:600;">Boyut:</span>
-                                <button class="btn-kucuk" data-boyut="2" style="width:auto; padding:2px 6px; font-size:0.6rem;">K</button>
-                                <button class="btn-kucuk" data-boyut="4" style="width:auto; padding:2px 6px; font-size:0.6rem;">M</button>
-                                <button class="btn-kucuk" data-boyut="6" style="width:auto; padding:2px 6px; font-size:0.6rem;">B</button>
-                            </div>
-                            <div style="display:flex; gap:4px; align-items:center;">
-                                <button class="btn-kucuk" id="silgiButon" style="width:auto; padding:2px 10px; font-size:0.7rem;">🧹 Silgi</button>
-                                <button class="btn-kucuk" id="cizgiTuruButon" style="width:auto; padding:2px 10px; font-size:0.7rem;">─ Düz</button>
-                            </div>
-                            <button class="btn-kucuk" onclick="canvasTemizle()" style="width:auto; padding:2px 10px; font-size:0.7rem;">🗑️ Tümünü Sil</button>
-                        </div>
-                        <!-- Canvas -->
-                        <div style="margin:12px 0; position:relative;">
-                            <canvas id="kalemCanvas" class="canvas-kalem"></canvas>
-                            <div id="cozumIpucu" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); color:white; padding:4px 12px; border-radius:20px; font-size:0.7rem; display:none;">✏️ Çizim yapabilirsiniz</div>
-                        </div>
+                        <button class="btn btn-ikincil" onclick="soruFullscreenAc()">🎲 Soru Çöz</button>
                     </div>
                 </div>
             </div>
@@ -1110,7 +1259,6 @@
                     aytLabel.textContent = bolum === 'sayisal' ? '📗 Sayısal AYT' : '📗 EA AYT';
                     document.getElementById('ortalamaAytLabel').textContent = bolum === 'sayisal' ? '📗 Ort. Sayısal AYT' : '📗 Ort. EA AYT';
                 }
-                // Mila'yı güncelle
                 milaGuncelle(data.currentUser);
                 tumVerileriGoster();
             } else {
@@ -1140,7 +1288,6 @@
             const soz = document.getElementById('milaSoz');
             if (!soz) return;
             const isim = kullaniciAdi || 'Ziyaretçi';
-            // Rastgele bir söz seç
             const randomIndex = Math.floor(Math.random() * milaSozler.length);
             soz.textContent = milaSozler[randomIndex](isim);
         }
@@ -1165,11 +1312,9 @@
             planGoster();
             istatistikGuncelle();
             rozetleriGuncelle();
-            // motivasyonDegistir() kaldırıldı, yerine Mila
             geriSayimiGuncelle();
             puanTahminiGuncelle();
             ilerlemeCubugunuGuncelle();
-            canvasBaslat();
         }
 
         // ==========================================================
@@ -1720,279 +1865,269 @@
         }
 
         // ==========================================================
-        //  12. SORU ÇÖZ (GÜNCELLENDİ) - APPLE PENCIL DÜZELTİLDİ
+        //  12. SORU ÇÖZ - FULLSCREEN
         // ==========================================================
-        let mevcutSoru = null;
-        let secilenCevap = null;
-        let canvas = null;
-        let ctx = null;
-        let cizim = false;
-        let silgiModu = false;
-        let cizgiTuru = 'duz';
-        let cizimBoyutu = 3;
-        let cizimRengi = '#d6336c';
-        let sonX = 0, sonY = 0;
-        let basinc = 1;
+        let mevcutSoruFull = null;
+        let secilenCevapFull = null;
+        let canvasFull = null;
+        let ctxFull = null;
+        let cizimFull = false;
+        let silgiModuFull = false;
+        let cizgiTuruFull = 'duz';
+        let cizimBoyutuFull = 3;
+        let cizimRengiFull = '#d6336c';
 
-        function canvasBaslat() {
-            const canvasEl = document.getElementById('kalemCanvas');
-            if (!canvasEl) return;
-            canvas = canvasEl;
-            ctx = canvas.getContext('2d');
-            
-            // Gerçek boyutları ayarla
-            const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width || 400;
-            canvas.height = 300;
-            canvas.style.height = '300px';
-            
-            canvasTemizle();
+        function soruFullscreenAc() {
+            if (typeof sorular === 'undefined' || !sorular.length) {
+                alert('❌ Sorular yüklenemedi! Lütfen sorular.js dosyasını kontrol edin.');
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * sorular.length);
+            mevcutSoruFull = sorular[randomIndex];
+            secilenCevapFull = null;
+            document.getElementById('soruFullscreen').classList.add('active');
+            document.getElementById('soruMetniFull').textContent = mevcutSoruFull.soruMetni;
 
-            canvas.addEventListener('mousedown', basla);
-            canvas.addEventListener('mousemove', ciz);
-            canvas.addEventListener('mouseup', dur);
-            canvas.addEventListener('mouseleave', dur);
-            canvas.addEventListener('touchstart', baslaTouch, { passive: false });
-            canvas.addEventListener('touchmove', cizTouch, { passive: false });
-            canvas.addEventListener('touchend', dur, { passive: false });
+            // Resim
+            const resimDiv = document.getElementById('soruResmiFull');
+            resimDiv.innerHTML = '';
+            if (mevcutSoruFull.resim && mevcutSoruFull.resim.trim() !== '') {
+                const img = document.createElement('img');
+                img.src = `fotoğraflar/${mevcutSoruFull.resim}`;
+                img.className = 'soru-resmi-full';
+                img.alt = 'Soru görseli';
+                img.onerror = function() { this.style.display = 'none'; };
+                resimDiv.appendChild(img);
+            }
+
+            // Şıklar
+            const siklarDiv = document.getElementById('siklarFull');
+            siklarDiv.innerHTML = '';
+            const sıklar = mevcutSoruFull.sıklar || [];
+            sıklar.forEach((sik, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'sik-buton-full';
+                btn.textContent = `${String.fromCharCode(65 + index)}. ${sik}`;
+                btn.dataset.sik = String.fromCharCode(65 + index);
+                btn.onclick = function() {
+                    document.querySelectorAll('.sik-buton-full').forEach(b => b.classList.remove('secilen-full'));
+                    this.classList.add('secilen-full');
+                    secilenCevapFull = this.dataset.sik;
+                };
+                siklarDiv.appendChild(btn);
+            });
+
+            // Sonuç ve çözüm linki temizle
+            document.getElementById('sonucMesajiFull').innerHTML = '';
+            document.getElementById('cozumLinkiFull').innerHTML = '';
+
+            // Canvas başlat
+            setTimeout(() => {
+                canvasFullBaslat();
+                canvasTemizleFull();
+                document.getElementById('cozumIpucuFull').style.display = 'block';
+            }, 100);
+
+            // Toolbar ayarları
+            document.querySelectorAll('[data-boyut-full]').forEach(btn => {
+                btn.onclick = function() {
+                    cizimBoyutuFull = parseInt(this.dataset.boyutFull);
+                };
+            });
+            document.getElementById('renkSeciciFull').onchange = function() {
+                cizimRengiFull = this.value;
+            };
+            document.getElementById('silgiButonFull').onclick = function() {
+                silgiModuFull = !silgiModuFull;
+                this.textContent = silgiModuFull ? '✏️ Kalem' : '🧹 Silgi';
+                this.classList.toggle('btn-ikincil');
+            };
+            document.getElementById('cizgiTuruButonFull').onclick = function() {
+                if (cizgiTuruFull === 'duz') cizgiTuruFull = 'kesikli';
+                else if (cizgiTuruFull === 'kesikli') cizgiTuruFull = 'noktali';
+                else cizgiTuruFull = 'duz';
+                this.textContent = cizgiTuruFull === 'duz' ? '─ Düz' : cizgiTuruFull === 'kesikli' ? '─ Kesik' : '─ Noktalı';
+            };
         }
 
-        function canvasTemizle() {
-            if (ctx) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                cizArkaPlan();
+        function soruFullscreenKapat() {
+            document.getElementById('soruFullscreen').classList.remove('active');
+            mevcutSoruFull = null;
+            secilenCevapFull = null;
+        }
+
+        function canvasFullBaslat() {
+            const canvasEl = document.getElementById('kalemCanvasFull');
+            if (!canvasEl) return;
+            canvasFull = canvasEl;
+            ctxFull = canvasFull.getContext('2d');
+            
+            const rect = canvasFull.getBoundingClientRect();
+            canvasFull.width = rect.width || 600;
+            canvasFull.height = 400;
+            canvasFull.style.height = '400px';
+            
+            canvasFull.addEventListener('mousedown', baslaFull);
+            canvasFull.addEventListener('mousemove', cizFull);
+            canvasFull.addEventListener('mouseup', durFull);
+            canvasFull.addEventListener('mouseleave', durFull);
+            canvasFull.addEventListener('touchstart', baslaTouchFull, { passive: false });
+            canvasFull.addEventListener('touchmove', cizTouchFull, { passive: false });
+            canvasFull.addEventListener('touchend', durFull, { passive: false });
+        }
+
+        function canvasTemizleFull() {
+            if (ctxFull) {
+                ctxFull.clearRect(0, 0, canvasFull.width, canvasFull.height);
+                cizArkaPlanFull();
             }
         }
 
-        function cizArkaPlan() {
-            if (!mevcutSoru || !mevcutSoru.resim) return;
+        function cizArkaPlanFull() {
+            if (!mevcutSoruFull || !mevcutSoruFull.resim) return;
             const img = new Image();
-            img.src = `fotoğraflar/${mevcutSoru.resim}`;
+            img.src = `fotoğraflar/${mevcutSoruFull.resim}`;
             img.onload = function() {
-                const ratio = Math.min(canvas.width / img.width, canvas.height / img.height);
+                const ratio = Math.min(canvasFull.width / img.width, canvasFull.height / img.height);
                 const w = img.width * ratio;
                 const h = img.height * ratio;
-                const x = (canvas.width - w) / 2;
-                const y = (canvas.height - h) / 2;
-                ctx.drawImage(img, x, y, w, h);
+                const x = (canvasFull.width - w) / 2;
+                const y = (canvasFull.height - h) / 2;
+                ctxFull.drawImage(img, x, y, w, h);
             };
             img.onerror = function() {};
         }
 
-        function koordinatAl(clientX, clientY) {
-            const rect = canvas.getBoundingClientRect();
-            // Canvas boyutuna göre ölçekle
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
+        function koordinatAlFull(clientX, clientY) {
+            const rect = canvasFull.getBoundingClientRect();
+            const scaleX = canvasFull.width / rect.width;
+            const scaleY = canvasFull.height / rect.height;
             return {
                 x: (clientX - rect.left) * scaleX,
                 y: (clientY - rect.top) * scaleY
             };
         }
 
-        function basla(e) {
-            if (!canvas) return;
-            cizim = true;
-            const pos = koordinatAl(e.clientX, e.clientY);
-            sonX = pos.x;
-            sonY = pos.y;
-            ctx.beginPath();
-            ctx.moveTo(sonX, sonY);
-            if (silgiModu) {
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.lineWidth = 20;
+        function baslaFull(e) {
+            if (!canvasFull) return;
+            cizimFull = true;
+            const pos = koordinatAlFull(e.clientX, e.clientY);
+            ctxFull.beginPath();
+            ctxFull.moveTo(pos.x, pos.y);
+            if (silgiModuFull) {
+                ctxFull.globalCompositeOperation = 'destination-out';
+                ctxFull.lineWidth = 20;
             } else {
-                ctx.globalCompositeOperation = 'source-over';
-                ctx.lineWidth = cizimBoyutu;
-                ctx.strokeStyle = cizimRengi;
+                ctxFull.globalCompositeOperation = 'source-over';
+                ctxFull.lineWidth = cizimBoyutuFull;
+                ctxFull.strokeStyle = cizimRengiFull;
             }
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            if (cizgiTuru === 'kesikli') {
-                ctx.setLineDash([10, 10]);
-            } else if (cizgiTuru === 'noktali') {
-                ctx.setLineDash([3, 6]);
+            ctxFull.lineCap = 'round';
+            ctxFull.lineJoin = 'round';
+            if (cizgiTuruFull === 'kesikli') {
+                ctxFull.setLineDash([10, 10]);
+            } else if (cizgiTuruFull === 'noktali') {
+                ctxFull.setLineDash([3, 6]);
             } else {
-                ctx.setLineDash([]);
+                ctxFull.setLineDash([]);
             }
         }
 
-        function ciz(e) {
-            if (!cizim || !canvas) return;
-            const pos = koordinatAl(e.clientX, e.clientY);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-            sonX = pos.x;
-            sonY = pos.y;
+        function cizFull(e) {
+            if (!cizimFull || !canvasFull) return;
+            const pos = koordinatAlFull(e.clientX, e.clientY);
+            ctxFull.lineTo(pos.x, pos.y);
+            ctxFull.stroke();
         }
 
-        function baslaTouch(e) {
+        function baslaTouchFull(e) {
             e.preventDefault();
-            if (!canvas) return;
+            if (!canvasFull) return;
             const touch = e.touches[0];
-            const pos = koordinatAl(touch.clientX, touch.clientY);
-            sonX = pos.x;
-            sonY = pos.y;
+            const pos = koordinatAlFull(touch.clientX, touch.clientY);
             if (touch.force && touch.force > 0) {
-                basinc = Math.min(touch.force * 2, 1);
-                ctx.lineWidth = cizimBoyutu * basinc;
+                const basinc = Math.min(touch.force * 2, 1);
+                ctxFull.lineWidth = cizimBoyutuFull * basinc;
             } else {
-                ctx.lineWidth = cizimBoyutu;
+                ctxFull.lineWidth = cizimBoyutuFull;
             }
-            ctx.beginPath();
-            ctx.moveTo(sonX, sonY);
-            if (silgiModu) {
-                ctx.globalCompositeOperation = 'destination-out';
-                ctx.lineWidth = 20;
+            ctxFull.beginPath();
+            ctxFull.moveTo(pos.x, pos.y);
+            if (silgiModuFull) {
+                ctxFull.globalCompositeOperation = 'destination-out';
+                ctxFull.lineWidth = 20;
             } else {
-                ctx.globalCompositeOperation = 'source-over';
-                ctx.strokeStyle = cizimRengi;
+                ctxFull.globalCompositeOperation = 'source-over';
+                ctxFull.strokeStyle = cizimRengiFull;
             }
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            if (cizgiTuru === 'kesikli') {
-                ctx.setLineDash([10, 10]);
-            } else if (cizgiTuru === 'noktali') {
-                ctx.setLineDash([3, 6]);
+            ctxFull.lineCap = 'round';
+            ctxFull.lineJoin = 'round';
+            if (cizgiTuruFull === 'kesikli') {
+                ctxFull.setLineDash([10, 10]);
+            } else if (cizgiTuruFull === 'noktali') {
+                ctxFull.setLineDash([3, 6]);
             } else {
-                ctx.setLineDash([]);
+                ctxFull.setLineDash([]);
             }
-            cizim = true;
+            cizimFull = true;
         }
 
-        function cizTouch(e) {
+        function cizTouchFull(e) {
             e.preventDefault();
-            if (!cizim || !canvas) return;
+            if (!cizimFull || !canvasFull) return;
             const touch = e.touches[0];
-            const pos = koordinatAl(touch.clientX, touch.clientY);
+            const pos = koordinatAlFull(touch.clientX, touch.clientY);
             if (touch.force && touch.force > 0) {
-                basinc = Math.min(touch.force * 2, 1);
-                ctx.lineWidth = cizimBoyutu * basinc;
+                const basinc = Math.min(touch.force * 2, 1);
+                ctxFull.lineWidth = cizimBoyutuFull * basinc;
             }
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-            sonX = pos.x;
-            sonY = pos.y;
+            ctxFull.lineTo(pos.x, pos.y);
+            ctxFull.stroke();
         }
 
-        function dur(e) {
-            cizim = false;
-            ctx.closePath();
-            if (silgiModu) {
-                ctx.globalCompositeOperation = 'source-over';
+        function durFull(e) {
+            cizimFull = false;
+            ctxFull.closePath();
+            if (silgiModuFull) {
+                ctxFull.globalCompositeOperation = 'source-over';
             }
         }
 
-        function soruCozModu() {
-            const toolbar = document.getElementById('toolbar');
-            toolbar.style.display = 'flex';
-            const ipucu = document.getElementById('cozumIpucu');
-            ipucu.style.display = 'block';
-            canvasTemizle();
-            document.querySelectorAll('[data-boyut]').forEach(btn => {
-                btn.onclick = function() {
-                    cizimBoyutu = parseInt(this.dataset.boyut);
-                };
-            });
-            document.getElementById('renkSecici').onchange = function() {
-                cizimRengi = this.value;
-            };
-            document.getElementById('silgiButon').onclick = function() {
-                silgiModu = !silgiModu;
-                this.textContent = silgiModu ? '✏️ Kalem' : '🧹 Silgi';
-                this.classList.toggle('btn-ikincil');
-            };
-            document.getElementById('cizgiTuruButon').onclick = function() {
-                if (cizgiTuru === 'duz') cizgiTuru = 'kesikli';
-                else if (cizgiTuru === 'kesikli') cizgiTuru = 'noktali';
-                else cizgiTuru = 'duz';
-                this.textContent = cizgiTuru === 'duz' ? '─ Düz' : cizgiTuru === 'kesikli' ? '─ Kesik' : '─ Noktalı';
-            };
-        }
-
-        function rastgeleSoruGetir() {
-            if (typeof sorular === 'undefined' || !sorular.length) {
-                alert('❌ Sorular yüklenemedi! Lütfen sorular.js dosyasını kontrol edin.');
-                return;
-            }
-            const randomIndex = Math.floor(Math.random() * sorular.length);
-            mevcutSoru = sorular[randomIndex];
-            secilenCevap = null;
-            document.getElementById('soruKutu').style.display = 'block';
-            document.getElementById('sonucMesaji').innerHTML = '';
-            document.getElementById('cozumLinki').innerHTML = '';
-            document.getElementById('toolbar').style.display = 'none';
-            document.getElementById('cozumIpucu').style.display = 'none';
-
-            document.getElementById('soruMetni').textContent = mevcutSoru.soruMetni;
-
-            const resimDiv = document.getElementById('soruResmi');
-            resimDiv.innerHTML = '';
-            if (mevcutSoru.resim && mevcutSoru.resim.trim() !== '') {
-                const img = document.createElement('img');
-                img.src = `fotoğraflar/${mevcutSoru.resim}`;
-                img.className = 'soru-resim';
-                img.alt = 'Soru görseli';
-                img.onerror = function() {
-                    this.style.display = 'none';
-                };
-                resimDiv.appendChild(img);
-            }
-
-            const siklarDiv = document.getElementById('siklar');
-            siklarDiv.innerHTML = '';
-            const sıklar = mevcutSoru.sıklar || [];
-            sıklar.forEach((sik, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'sik-buton';
-                btn.textContent = `${String.fromCharCode(65 + index)}. ${sik}`;
-                btn.dataset.sik = String.fromCharCode(65 + index);
-                btn.onclick = function() {
-                    document.querySelectorAll('.sik-buton').forEach(b => b.classList.remove('secilen'));
-                    this.classList.add('secilen');
-                    secilenCevap = this.dataset.sik;
-                };
-                siklarDiv.appendChild(btn);
-            });
-
-            canvasTemizle();
-        }
-
-        function cevabiKontrolEt() {
-            if (!mevcutSoru) {
+        function cevabiKontrolEtFull() {
+            if (!mevcutSoruFull) {
                 alert('Önce bir soru getirin.');
                 return;
             }
-            if (!secilenCevap) {
+            if (!secilenCevapFull) {
                 alert('Lütfen bir şık seçin.');
                 return;
             }
 
-            const sonucDiv = document.getElementById('sonucMesaji');
-            const cozumDiv = document.getElementById('cozumLinki');
+            const sonucDiv = document.getElementById('sonucMesajiFull');
+            const cozumDiv = document.getElementById('cozumLinkiFull');
             cozumDiv.innerHTML = '';
 
-            if (secilenCevap === mevcutSoru.dogruCevap) {
+            if (secilenCevapFull === mevcutSoruFull.dogruCevap) {
                 sonucDiv.innerHTML = '✅ Tebrikler! Doğru cevap! 🎉';
                 sonucDiv.style.color = '#28a745';
-                document.querySelectorAll('.sik-buton').forEach(b => {
-                    if (b.dataset.sik === mevcutSoru.dogruCevap) {
-                        b.classList.add('dogru');
+                document.querySelectorAll('.sik-buton-full').forEach(b => {
+                    if (b.dataset.sik === mevcutSoruFull.dogruCevap) {
+                        b.classList.add('dogru-full');
                     }
                 });
             } else {
                 sonucDiv.innerHTML = '❌ Yanlış cevap. Çözümü inceleyin.';
                 sonucDiv.style.color = '#dc3545';
-                document.querySelectorAll('.sik-buton').forEach(b => {
-                    if (b.dataset.sik === secilenCevap) {
-                        b.classList.add('yanlis');
+                document.querySelectorAll('.sik-buton-full').forEach(b => {
+                    if (b.dataset.sik === secilenCevapFull) {
+                        b.classList.add('yanlis-full');
                     }
-                    if (b.dataset.sik === mevcutSoru.dogruCevap) {
-                        b.classList.add('dogru');
+                    if (b.dataset.sik === mevcutSoruFull.dogruCevap) {
+                        b.classList.add('dogru-full');
                     }
                 });
-                if (mevcutSoru.cozumLink && mevcutSoru.cozumLink.trim() !== '') {
-                    let link = mevcutSoru.cozumLink;
+                if (mevcutSoruFull.cozumLink && mevcutSoruFull.cozumLink.trim() !== '') {
+                    let link = mevcutSoruFull.cozumLink;
                     if (link.includes('watch?v=')) {
                         const videoId = link.split('v=')[1]?.split('&')[0];
                         if (videoId) {
@@ -2003,7 +2138,7 @@
                     btn.className = 'btn-ikincil btn-kucuk';
                     btn.textContent = '▶️ Çözümü İzle (YouTube)';
                     btn.onclick = function() {
-                        window.open(mevcutSoru.cozumLink, '_blank');
+                        window.open(mevcutSoruFull.cozumLink, '_blank');
                     };
                     cozumDiv.appendChild(btn);
                     if (link.includes('youtube.com/embed')) {
