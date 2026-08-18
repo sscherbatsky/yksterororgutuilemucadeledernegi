@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YKS TERÖR ÖRGÜTÜ İLE MÜCADELE DERNEĞİ</title>
+    <!-- Modern Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* ===== GENEL STİLLER ===== */
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: #fff5f7;
-            color: #4a2c3a;
-            padding: 20px;
+            color: #2d1b24;
+            padding: 24px;
             transition: background 0.3s, color 0.3s;
+            line-height: 1.5;
         }
         body.dark {
             background: #1a1a2e;
@@ -26,7 +31,6 @@
         body.dark .card {
             background: #2d2d44;
             border-color: #4a3a5a;
-            color: #e0d6e8;
         }
         body.dark .card h2 {
             color: #f5a0c0;
@@ -64,59 +68,67 @@
         }
 
         .container {
-            max-width: 1500px;
+            max-width: 1440px;
             margin: 0 auto;
         }
+
+        /* ===== BAŞLIK & İMZA ===== */
         h1 {
             text-align: center;
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
             color: #d6336c;
-            font-size: 2.8rem;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
         .subtitle {
             text-align: center;
             font-size: 1rem;
+            font-weight: 500;
             color: #b34a6e;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+        }
+        .imza-wrapper {
+            text-align: center;
+            margin-bottom: 24px;
         }
         .imza {
-            text-align: center;
-            font-size: 0.95rem;
-            color: #b34a6e;
-            background: #ffe6ef;
-            padding: 8px 20px;
-            border-radius: 30px;
             display: inline-block;
-            margin: 0 auto 15px auto;
+            background: rgba(214, 51, 108, 0.08);
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-size: 0.95rem;
             font-weight: 500;
+            color: #b34a6e;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(214, 51, 108, 0.15);
         }
         .imza span {
             font-weight: 700;
             color: #a1325a;
         }
-        .imza-wrapper {
-            text-align: center;
-        }
 
         /* ===== ÜST BAR ===== */
         .ust-bar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
-            background: #ffffff;
-            padding: 12px 22px;
-            border-radius: 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 16px rgba(214, 51, 108, 0.06);
-            border: 1px solid #fce4ec;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            padding: 14px 24px;
+            border-radius: 60px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(214, 51, 108, 0.08);
+            box-shadow: 0 4px 20px rgba(214, 51, 108, 0.04);
         }
         .ust-bar .kullanici-bilgi {
             display: flex;
             align-items: center;
             gap: 12px;
             font-weight: 600;
+            font-size: 0.95rem;
         }
         .ust-bar .kullanici-bilgi span {
             color: #d6336c;
@@ -125,66 +137,98 @@
             background: #d6336c;
             color: white;
             border: none;
-            padding: 6px 16px;
-            border-radius: 20px;
-            cursor: pointer;
+            padding: 6px 18px;
+            border-radius: 40px;
             font-weight: 600;
             font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
         }
         .ust-bar .kullanici-bilgi button:hover {
             background: #b82a5a;
         }
+        .ust-bar .kullanici-bilgi #kullaniciBolum {
+            background: rgba(214, 51, 108, 0.12);
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .ust-bar .sag-grup {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .ust-bar .geri-sayim {
+            font-size: 0.9rem;
+            background: rgba(214, 51, 108, 0.08);
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #d6336c;
+            white-space: nowrap;
+        }
         .tema-buton {
-            background: none;
-            border: 1px solid #f0ceda;
-            border-radius: 30px;
+            background: rgba(214, 51, 108, 0.06);
+            border: 1px solid rgba(214, 51, 108, 0.12);
+            border-radius: 40px;
             padding: 6px 14px;
             font-size: 1.2rem;
             cursor: pointer;
-            background: #fff9fb;
+            transition: 0.2s;
         }
-        body.dark .tema-buton {
-            background: #3d3d5a;
-            border-color: #5a4a6a;
+        .tema-buton:hover {
+            background: rgba(214, 51, 108, 0.12);
         }
 
         /* ===== GRID ===== */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-            gap: 22px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+            margin-top: 8px;
         }
         .card {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 20px 18px;
-            box-shadow: 0 8px 24px rgba(214, 51, 108, 0.08);
-            border: 1px solid #fce4ec;
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 24px 22px;
+            border: 1px solid rgba(214, 51, 108, 0.06);
+            box-shadow: 0 8px 32px rgba(214, 51, 108, 0.04);
+            transition: transform 0.2s, box-shadow 0.3s;
         }
         .card:hover {
-            box-shadow: 0 12px 32px rgba(214, 51, 108, 0.13);
+            transform: translateY(-3px);
+            box-shadow: 0 16px 48px rgba(214, 51, 108, 0.08);
         }
         .card h2 {
             color: #d6336c;
-            font-size: 1.2rem;
-            border-bottom: 2px solid #f8d4e0;
-            padding-bottom: 6px;
-            margin-bottom: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(214, 51, 108, 0.08);
+            padding-bottom: 10px;
+            margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            letter-spacing: -0.01em;
         }
         .card h2 .kucuk {
             font-size: 0.7rem;
             font-weight: 400;
             color: #b34a6e;
+            background: rgba(214, 51, 108, 0.06);
+            padding: 2px 12px;
+            border-radius: 40px;
         }
+
+        /* ===== KONU ETİKETLERİ ===== */
         .konu-listesi {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            max-height: 250px;
+            gap: 6px;
+            max-height: 260px;
             overflow-y: auto;
             padding-right: 4px;
         }
@@ -192,27 +236,31 @@
             width: 4px;
         }
         .konu-listesi::-webkit-scrollbar-thumb {
-            background: #f0ceda;
+            background: rgba(214, 51, 108, 0.2);
             border-radius: 10px;
         }
         .konu {
-            background: #fce4ec;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.75rem;
+            background: rgba(214, 51, 108, 0.06);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.15s;
             border: 1px solid transparent;
             user-select: none;
         }
         .konu:hover {
-            transform: scale(1.03);
+            transform: scale(1.02);
+            background: rgba(214, 51, 108, 0.12);
         }
         .konu.tamamlandi {
             background: #d6336c;
             color: white;
             border-color: #b82a5a;
         }
+
+        /* ===== INPUT / SELECT / TEXTAREA ===== */
         .input-grup {
             margin: 8px 0 4px 0;
         }
@@ -220,55 +268,65 @@
             font-weight: 600;
             font-size: 0.8rem;
             display: block;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+            color: #4a2c3a;
+        }
+        body.dark .input-grup label {
+            color: #e0d6e8;
         }
         .input-grup input, .input-grup select, .input-grup textarea {
             width: 100%;
-            padding: 8px 12px;
-            border-radius: 14px;
-            border: 1px solid #f0ceda;
-            background: #fff9fb;
-            font-size: 0.9rem;
-            transition: 0.3s;
-            font-family: inherit;
+            padding: 10px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(214, 51, 108, 0.12);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: border 0.2s, box-shadow 0.2s;
+            color: #2d1b24;
         }
         .input-grup input:focus, .input-grup select:focus, .input-grup textarea:focus {
             outline: none;
             border-color: #d6336c;
-            box-shadow: 0 0 0 3px rgba(214, 51, 108, 0.12);
+            box-shadow: 0 0 0 4px rgba(214, 51, 108, 0.08);
         }
         .input-row {
             display: flex;
-            gap: 8px;
+            gap: 12px;
         }
         .input-row .input-grup {
             flex: 1;
         }
+
+        /* ===== BUTONLAR ===== */
         .btn {
             background: #d6336c;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-size: 0.9rem;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.2s;
             margin-top: 6px;
             width: 100%;
+            font-family: 'Inter', sans-serif;
         }
         .btn:hover {
             background: #b82a5a;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(214, 51, 108, 0.25);
+            transform: scale(1.01);
+            box-shadow: 0 8px 24px rgba(214, 51, 108, 0.2);
         }
         .btn-ikincil {
-            background: #ffe6ef;
+            background: rgba(214, 51, 108, 0.06);
             color: #b34a6e;
-            border: 1px solid #f8d4e0;
+            border: 1px solid rgba(214, 51, 108, 0.12);
         }
         .btn-ikincil:hover {
-            background: #f8d4e0;
+            background: rgba(214, 51, 108, 0.12);
+            transform: scale(1.01);
         }
         .btn-ucuncu {
             background: transparent;
@@ -280,49 +338,59 @@
             color: white;
         }
         .btn-kucuk {
-            padding: 4px 12px;
-            font-size: 0.75rem;
+            padding: 6px 16px;
+            font-size: 0.8rem;
             width: auto;
             margin-top: 4px;
+            border-radius: 40px;
         }
+
+        /* ===== AYRAÇ ===== */
         .cizgi {
-            background: #fce4ec;
+            background: rgba(214, 51, 108, 0.06);
             height: 2px;
             border: none;
+            margin: 16px 0;
+        }
+
+        /* ===== GRAFİK ===== */
+        .grafik-kapsayici {
+            height: 170px;
             margin: 12px 0;
         }
-        .grafik-kapsayici {
-            height: 160px;
-            margin: 8px 0;
-        }
+
+        /* ===== ROZETLER ===== */
         .rozetler {
             display: flex;
-            gap: 6px;
             flex-wrap: wrap;
-            margin-top: 6px;
+            gap: 8px;
+            margin-top: 8px;
         }
         .rozet {
-            background: #ffe6ef;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            border: 1px solid #f8d4e0;
+            background: rgba(214, 51, 108, 0.06);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(214, 51, 108, 0.08);
+            font-weight: 500;
         }
         .rozet.kazanildi {
             background: #d6336c;
             color: white;
             border-color: #b82a5a;
         }
+
+        /* ===== LİSTELER ===== */
         .gecmis-listesi {
-            max-height: 150px;
+            max-height: 160px;
             overflow-y: auto;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
         .gecmis-listesi div {
             display: flex;
             justify-content: space-between;
-            padding: 3px 0;
-            border-bottom: 1px solid #fce4ec;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(214, 51, 108, 0.04);
         }
         body.dark .gecmis-listesi div {
             border-color: #4a3a5a;
@@ -331,17 +399,17 @@
         .yapilacak-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 4px 0;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #fce4ec;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(214, 51, 108, 0.04);
         }
         body.dark .yapilacak-item {
             border-color: #4a3a5a;
         }
         .yapilacak-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             accent-color: #d6336c;
             cursor: pointer;
         }
@@ -352,19 +420,25 @@
             margin-left: auto;
             background: none;
             border: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .yapilacak-item .sil:hover {
+            opacity: 1;
         }
         .yapilacak-item .yapildi {
             text-decoration: line-through;
             color: #b34a6e;
         }
 
+        /* ===== HAFTALIK PLAN ===== */
         .haftalik-plan {
             display: grid;
             grid-template-columns: 1fr 2fr;
-            gap: 4px 8px;
-            font-size: 0.8rem;
-            margin-top: 6px;
+            gap: 6px 12px;
+            font-size: 0.85rem;
+            margin-top: 8px;
         }
         .haftalik-plan .gun {
             font-weight: 600;
@@ -372,75 +446,88 @@
         }
         .haftalik-plan input {
             border: none;
-            border-bottom: 1px solid #f0ceda;
+            border-bottom: 2px solid rgba(214, 51, 108, 0.08);
             background: transparent;
-            padding: 2px 4px;
-            font-size: 0.8rem;
+            padding: 4px 6px;
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            transition: border 0.2s;
+        }
+        .haftalik-plan input:focus {
+            outline: none;
+            border-bottom-color: #d6336c;
         }
         body.dark .haftalik-plan input {
             border-bottom-color: #5a4a6a;
             color: #e0d6e8;
         }
 
+        /* ===== FOOTER ===== */
         .footer-imza {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 40px;
             font-size: 0.85rem;
             color: #b34a6e;
-            background: #ffe6ef;
-            padding: 12px;
-            border-radius: 40px;
-            border: 1px solid #f8d4e0;
+            background: rgba(214, 51, 108, 0.04);
+            padding: 16px;
+            border-radius: 60px;
+            border: 1px solid rgba(214, 51, 108, 0.06);
         }
         .footer-imza strong {
             color: #a1325a;
         }
 
-        /* ===== LOGIN EKRANI ===== */
+        /* ===== LOGIN ===== */
         .login-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(16px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 999;
         }
         .login-box {
-            background: white;
-            padding: 40px 35px;
-            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 40px 36px;
+            border-radius: 48px;
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.08);
             text-align: center;
+            border: 1px solid rgba(214, 51, 108, 0.06);
         }
         .login-box h2 {
             color: #d6336c;
-            font-size: 2rem;
-            margin-bottom: 8px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 6px;
         }
         .login-box p {
             color: #b34a6e;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             font-size: 0.9rem;
         }
         .login-box input, .login-box select {
             width: 100%;
-            padding: 12px 16px;
-            border-radius: 30px;
-            border: 1px solid #f0ceda;
-            margin-bottom: 12px;
+            padding: 14px 18px;
+            border-radius: 40px;
+            border: 1px solid rgba(214, 51, 108, 0.08);
+            margin-bottom: 14px;
             font-size: 1rem;
-            background: #fff9fb;
+            background: rgba(255, 255, 255, 0.6);
+            font-family: 'Inter', sans-serif;
+            transition: border 0.2s;
         }
         .login-box input:focus, .login-box select:focus {
             outline: none;
             border-color: #d6336c;
+            box-shadow: 0 0 0 4px rgba(214, 51, 108, 0.06);
         }
         .login-box .btn {
             margin-top: 4px;
@@ -449,24 +536,28 @@
             color: #d6336c;
             cursor: pointer;
             font-weight: 600;
-            margin-top: 12px;
+            margin-top: 14px;
             display: inline-block;
+            font-size: 0.9rem;
         }
         .login-box .hata {
             color: #d6336c;
             font-size: 0.85rem;
-            margin-top: 8px;
+            margin-top: 10px;
         }
         .hidden {
             display: none !important;
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 600px) {
+        @media (max-width: 640px) {
+            body { padding: 16px; }
             h1 { font-size: 1.8rem; }
-            .grid { grid-template-columns: 1fr; }
-            .ust-bar { flex-direction: column; align-items: stretch; }
-            .login-box { padding: 30px 20px; margin: 15px; }
+            .grid { grid-template-columns: 1fr; gap: 18px; }
+            .ust-bar { flex-direction: column; align-items: stretch; gap: 12px; border-radius: 32px; padding: 16px; }
+            .ust-bar .sag-grup { justify-content: space-between; }
+            .login-box { padding: 28px 20px; margin: 16px; }
+            .input-row { flex-direction: column; gap: 4px; }
         }
     </style>
 </head>
@@ -491,7 +582,7 @@
             <div id="kayitForm" class="hidden">
                 <input type="text" id="kayitKullanici" placeholder="Yeni Kullanıcı Adı">
                 <input type="password" id="kayitSifre" placeholder="Şifre (isteğe bağlı)">
-                <label style="display:block; text-align:left; font-weight:600; margin:4px 0 2px; font-size:0.9rem;">Bölüm Türünüz:</label>
+                <label style="display:block; text-align:left; font-weight:600; margin:4px 0 6px; font-size:0.9rem;">Bölüm Türünüz:</label>
                 <select id="kayitBolum">
                     <option value="sayisal">Sayısal</option>
                     <option value="ea">Eşit Ağırlık (EA)</option>
@@ -511,7 +602,7 @@
     <div id="anaSayfa" class="container hidden">
 
         <h1>YKS TERÖR ÖRGÜTÜ İLE MÜCADELE DERNEĞİ</h1>
-                <div class="subtitle">DERNEK BAŞKANLARI:</div>
+        <div class="subtitle">DERNEK BAŞKANLARI:</div>
         <div class="imza-wrapper">
             <div class="imza">
                 <span>Naz Kaya</span> &nbsp;ve&nbsp; <span>Deniz Bozkurt</span>
@@ -523,11 +614,11 @@
             <div class="kullanici-bilgi">
                 <span>👤</span>
                 <span id="aktifKullaniciAdi">Kullanıcı</span>
-                <span id="kullaniciBolum" style="font-size:0.8rem; background:#ffe6ef; padding:2px 12px; border-radius:20px;"></span>
+                <span id="kullaniciBolum"></span>
                 <button onclick="cikisYap()">🚪 Çıkış</button>
             </div>
-            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                <span style="font-size:0.9rem; background:#ffe6ef; padding:4px 14px; border-radius:30px;" id="geriSayim">🎯 YKS: 0 gün</span>
+            <div class="sag-grup">
+                <span class="geri-sayim" id="geriSayim">🎯 YKS: 0 gün</span>
                 <button class="tema-buton" onclick="temaDegistir()">🌙</button>
             </div>
         </div>
@@ -537,13 +628,13 @@
 
             <!-- 1. KONU TAKİBİ -->
             <div class="card">
-                <h2>📚 Konu Takibi <span class="kucuk">(tıkla tamamla)</span></h2>
-                <div style="display:flex; gap:4px; margin-bottom:6px; flex-wrap:wrap;">
+                <h2>📚 Konu Takibi <span class="kucuk">tıkla tamamla</span></h2>
+                <div style="display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap;">
                     <button class="btn-ikincil btn-kucuk" onclick="konuEkle()">➕ Ekle</button>
                     <button class="btn-ikincil btn-kucuk" onclick="konulariSifirla()">🔄 Sıfırla</button>
                 </div>
                 <div class="konu-listesi" id="konuListesi"></div>
-                <div style="margin-top:6px; font-size:0.75rem; color:#b34a6e;">
+                <div style="margin-top:10px; font-size:0.8rem; color:#b34a6e; font-weight:500;">
                     Tamamlanan: <span id="tamamlananSayac">0</span> / <span id="toplamKonuSayac">0</span>
                 </div>
             </div>
@@ -558,13 +649,13 @@
                 <div class="input-grup"><label>📝 Deneme Adı</label><input type="text" id="denemeAdi" placeholder="TYT-1, AYT-3..."></div>
                 <button class="btn" onclick="denemeKaydet()">💾 Kaydet</button>
                 <hr class="cizgi">
-                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px;">
                     <button class="btn-ikincil btn-kucuk" onclick="grafikTipiDegistir('cizgi')">📈 Çizgi</button>
                     <button class="btn-ikincil btn-kucuk" onclick="grafikTipiDegistir('cubuk')">📊 Çubuk</button>
                 </div>
                 <div class="grafik-kapsayici"><canvas id="denemeGrafik"></canvas></div>
-                <div style="font-size:0.7rem; color:#b34a6e; text-align:center;">Son 10 deneme</div>
-                <div style="background:#ffe6ef; padding:6px; border-radius:16px; margin-top:4px; text-align:center; font-weight:600;" id="puanTahmini">📊 Puan Tahmini: -</div>
+                <div style="font-size:0.7rem; color:#b34a6e; text-align:center; margin-bottom:4px;">Son 10 deneme</div>
+                <div style="background:rgba(214,51,108,0.04); padding:10px; border-radius:20px; text-align:center; font-weight:600; font-size:0.95rem;" id="puanTahmini">📊 Puan Tahmini: -</div>
             </div>
 
             <!-- 3. ÇALIŞMA SÜRESİ + ROZETLER -->
@@ -577,12 +668,12 @@
                 <button class="btn" onclick="sureyiKaydet()">⏳ Kaydet</button>
                 <hr class="cizgi">
                 <div style="display:flex; justify-content:space-around; text-align:center;">
-                    <div><span style="font-size:0.7rem;">Bugün</span><br><span id="bugunSaat" style="font-size:1.6rem; font-weight:700; color:#d6336c;">0</span><span style="font-size:0.8rem;">h</span></div>
-                    <div><span style="font-size:0.7rem;">Haftalık</span><br><span id="haftalikSaat" style="font-size:1.6rem; font-weight:700; color:#d6336c;">0</span><span style="font-size:0.8rem;">h</span></div>
-                    <div><span style="font-size:0.7rem;">Aylık</span><br><span id="aylikSaat" style="font-size:1.6rem; font-weight:700; color:#d6336c;">0</span><span style="font-size:0.8rem;">h</span></div>
+                    <div><span style="font-size:0.7rem; font-weight:500;">Bugün</span><br><span id="bugunSaat" style="font-size:2rem; font-weight:700; color:#d6336c;">0</span><span style="font-size:0.9rem;">h</span></div>
+                    <div><span style="font-size:0.7rem; font-weight:500;">Haftalık</span><br><span id="haftalikSaat" style="font-size:2rem; font-weight:700; color:#d6336c;">0</span><span style="font-size:0.9rem;">h</span></div>
+                    <div><span style="font-size:0.7rem; font-weight:500;">Aylık</span><br><span id="aylikSaat" style="font-size:2rem; font-weight:700; color:#d6336c;">0</span><span style="font-size:0.9rem;">h</span></div>
                 </div>
                 <hr class="cizgi">
-                <div style="font-size:0.8rem; font-weight:600;">🏆 Rozetler</div>
+                <div style="font-size:0.9rem; font-weight:600;">🏆 Rozetler</div>
                 <div class="rozetler" id="rozetAlan"></div>
             </div>
 
@@ -595,12 +686,12 @@
                 <div class="input-grup"><label>🎯 Hedef Net (TYT)</label><input type="number" id="hedefPuan" placeholder="120"></div>
                 <div class="input-grup"><label>🏫 Hedef Sıralama/Üniversite</label><input type="text" id="hedefSiralama" placeholder="İlk 5000, Çapa..."></div>
                 <button class="btn-ucuncu" onclick="hedefKaydet()">🎯 Hedefleri Kaydet</button>
-                <div id="hedefGoster" style="margin-top:4px; font-size:0.8rem; color:#b34a6e;"></div>
+                <div id="hedefGoster" style="margin-top:8px; font-size:0.85rem; color:#b34a6e; font-weight:500;"></div>
             </div>
 
             <!-- 5. YAPILACAKLAR LİSTESİ -->
             <div class="card">
-                <h2>✅ Yapılacaklar <span class="kucuk">(günlük)</span></h2>
+                <h2>✅ Yapılacaklar <span class="kucuk">günlük</span></h2>
                 <div class="input-row">
                     <div class="input-grup"><input type="text" id="yeniGorev" placeholder="Yeni görev..."></div>
                     <button class="btn-kucuk" onclick="gorevEkle()" style="margin-top:6px;">➕</button>
@@ -627,28 +718,28 @@
             <div class="card">
                 <h2>📋 Deneme Geçmişi</h2>
                 <div class="gecmis-listesi" id="gecmisListesi"></div>
-                <button class="btn-ikincil" onclick="gecmisTemizle()" style="margin-top:6px;">🗑️ Temizle</button>
+                <button class="btn-ikincil" onclick="gecmisTemizle()" style="margin-top:10px;">🗑️ Temizle</button>
             </div>
 
             <!-- 8. ÖZET İSTATİSTİK -->
             <div class="card">
                 <h2>📈 Özet İstatistik</h2>
-                <div id="istatistikAlan" style="font-size:0.9rem;">
-                    <div style="display:flex; justify-content:space-between; padding:3px 0;"><span>📘 Ort. TYT</span><span id="ortalamaTyt">0</span></div>
-                    <div style="display:flex; justify-content:space-between; padding:3px 0;"><span id="ortalamaAytLabel">📗 Ort. AYT</span><span id="ortalamaAyt">0</span></div>
-                    <div style="display:flex; justify-content:space-between; padding:3px 0;"><span>⏱️ Toplam Çalışma</span><span id="toplamCalisma">0</span><span>saat</span></div>
-                    <div style="display:flex; justify-content:space-between; padding:3px 0;"><span>✅ Tamamlanan Konu</span><span id="tamamlananOzet">0</span></div>
-                    <div style="display:flex; justify-content:space-between; padding:3px 0;"><span>📝 Toplam Deneme</span><span id="toplamDeneme">0</span></div>
+                <div id="istatistikAlan" style="font-size:0.95rem;">
+                    <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>📘 Ort. TYT</span><span id="ortalamaTyt">0</span></div>
+                    <div style="display:flex; justify-content:space-between; padding:4px 0;"><span id="ortalamaAytLabel">📗 Ort. AYT</span><span id="ortalamaAyt">0</span></div>
+                    <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>⏱️ Toplam Çalışma</span><span id="toplamCalisma">0</span><span>saat</span></div>
+                    <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>✅ Tamamlanan Konu</span><span id="tamamlananOzet">0</span></div>
+                    <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>📝 Toplam Deneme</span><span id="toplamDeneme">0</span></div>
                 </div>
             </div>
 
             <!-- 9. MOTİVASYON -->
             <div class="card" style="grid-column: span 1;">
                 <h2>💬 Günün Sözü</h2>
-                <div id="motivasyonSozu" style="font-style:italic; font-size:1rem; min-height:50px; padding:10px; background:#fce4ec; border-radius:20px; text-align:center; display:flex; align-items:center; justify-content:center;">
+                <div id="motivasyonSozu" style="font-style:italic; font-size:1rem; min-height:60px; padding:14px; background:rgba(214,51,108,0.03); border-radius:24px; text-align:center; display:flex; align-items:center; justify-content:center; border:1px solid rgba(214,51,108,0.04);">
                     ✨ Başarı, azmin zaferidir.
                 </div>
-                <button class="btn-ikincil" onclick="motivasyonDegistir()" style="margin-top:8px;">🔄 Yeni Söz</button>
+                <button class="btn-ikincil" onclick="motivasyonDegistir()" style="margin-top:10px;">🔄 Yeni Söz</button>
             </div>
 
         </div>
@@ -833,31 +924,18 @@
             const userData = getCurrentUserData();
             if (!userData) return;
 
-            // 1. Konular
             konuListesiniGoster();
-            // 2. Deneme Geçmişi
             gecmisiGoster();
-            // 3. Grafik
             grafikGuncelle();
-            // 4. Çalışma süresi
             sureGoster();
-            // 5. Notlar
             document.getElementById('notDefteri').value = userData.notlar || '';
-            // 6. Hedefler
             hedefGoster();
-            // 7. Yapılacaklar
             yapilacaklariGoster();
-            // 8. Haftalık Plan
             planGoster();
-            // 9. İstatistik
             istatistikGuncelle();
-            // 10. Rozetler
             rozetleriGuncelle();
-            // 11. Motivasyon
             motivasyonDegistir();
-            // 12. Geri Sayım
             geriSayimiGuncelle();
-            // 13. Puan Tahmini
             puanTahminiGuncelle();
         }
 
@@ -925,7 +1003,7 @@
         }
 
         // ==========================================================
-        //  2. DENEMELER (YDT kaldırıldı)
+        //  2. DENEMELER
         // ==========================================================
         function denemeKaydet() {
             const tyt = parseFloat(document.getElementById('tytNet').value) || 0;
@@ -1020,7 +1098,6 @@
                 return;
             }
             const son = gecmis[gecmis.length-1];
-            // YDT çıkarıldı, sadece TYT + AYT üzerinden yaklaşık puan
             const tahmin = (son.tyt * 3.3) + (son.ayt * 3.8);
             document.getElementById('puanTahmini').textContent = `📊 Puan Tahmini: ${Math.round(tahmin)} (TYT:${son.tyt} AYT:${son.ayt})`;
         }
@@ -1176,7 +1253,7 @@
         }
 
         // ==========================================================
-        //  7. İSTATİSTİK (YDT çıkarıldı)
+        //  7. İSTATİSTİK
         // ==========================================================
         function istatistikGuncelle() {
             const userData = getCurrentUserData();
@@ -1241,7 +1318,7 @@
         //  9. GERİ SAYIM (2027 YKS)
         // ==========================================================
         function geriSayimiGuncelle() {
-            const hedef = new Date(2027, 5, 19, 10, 15, 0); // 19 Haziran 2027 10:15
+            const hedef = new Date(2027, 5, 19, 10, 15, 0);
             const simdi = new Date();
             const fark = hedef - simdi;
 
@@ -1294,7 +1371,6 @@
         //  BAŞLATMA
         // ==========================================================
         window.onload = function() {
-            // Enter tuşu ile giriş/kayıt
             document.getElementById('loginKullanici').addEventListener('keyup', (e) => e.key === 'Enter' && girisYap());
             document.getElementById('loginSifre').addEventListener('keyup', (e) => e.key === 'Enter' && girisYap());
             document.getElementById('kayitKullanici').addEventListener('keyup', (e) => e.key === 'Enter' && kayitOl());
@@ -1302,8 +1378,6 @@
             document.getElementById('yeniGorev').addEventListener('keyup', (e) => e.key === 'Enter' && gorevEkle());
 
             sayfayiYukle();
-
-            // Geri sayımı her saniye güncelle
             setInterval(geriSayimiGuncelle, 1000);
         };
     </script>
