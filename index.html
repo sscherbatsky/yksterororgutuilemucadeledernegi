@@ -8,7 +8,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF (PDF için) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Sorular JS (kendi dosyan) -->
+    <script src="sorular.js"></script>
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -462,6 +467,67 @@
             color: #e0d6e8;
         }
 
+        /* ===== SORU ÇÖZ (YENİ) ===== */
+        .soru-kutu {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .soru-resim {
+            max-width: 100%;
+            border-radius: 16px;
+            margin: 8px 0;
+        }
+        .sik-buton {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 4px 6px 4px 0;
+            border-radius: 40px;
+            border: 1px solid rgba(214, 51, 108, 0.2);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .sik-buton:hover {
+            background: rgba(214, 51, 108, 0.1);
+        }
+        .sik-buton.secilen {
+            background: #d6336c;
+            color: white;
+            border-color: #d6336c;
+        }
+        .sik-buton.dogru {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        .sik-buton.yanlis {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+        .canvas-kalem {
+            border: 1px solid rgba(214, 51, 108, 0.2);
+            border-radius: 16px;
+            width: 100%;
+            height: 200px;
+            touch-action: none;
+            background: #fff;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="rgba(214,51,108,0.5)"/></svg>') 12 12, auto;
+        }
+        body.dark .canvas-kalem {
+            background: #2d2d44;
+        }
+        .cozum-iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 16px;
+            border: none;
+            margin-top: 8px;
+        }
+
         /* ===== FOOTER ===== */
         .footer-imza {
             text-align: center;
@@ -558,6 +624,7 @@
             .ust-bar .sag-grup { justify-content: space-between; }
             .login-box { padding: 28px 20px; margin: 16px; }
             .input-row { flex-direction: column; gap: 4px; }
+            .canvas-kalem { height: 150px; }
         }
     </style>
 </head>
@@ -765,12 +832,37 @@
                 </div>
                 <hr class="cizgi">
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <button class="btn-ikincil btn-kucuk" onclick="verileriDisariAktar()">📤 Yedekle (JSON)</button>
+                    <button class="btn-ikincil btn-kucuk" onclick="verileriDisariAktar()">📤 Yedekle (PDF)</button>
                     <button class="btn-ikincil btn-kucuk" onclick="document.getElementById('importInput').click()" style="position:relative;">📥 Yedekten Yükle</button>
                     <input type="file" id="importInput" accept=".json" style="display:none;" onchange="verileriIceriAktar(event)">
                 </div>
                 <div style="margin-top:8px; font-size:0.7rem; color:#b34a6e; text-align:center;">
-                    💡 Yedekle: Tüm verilerini bilgisayarına kaydet. Yükle: Yedeği geri getir.
+                    💡 Yedekle: PDF olarak indirir. Yükle: JSON yedeğini geri getirir.
+                </div>
+            </div>
+
+            <!-- 11. SORU ÇÖZ (YENİ) -->
+            <div class="card" style="grid-column: span 1;">
+                <h2>📝 Soru Çöz <span class="kucuk">rastgele</span></h2>
+                <div id="soruAlan">
+                    <div style="text-align:center; padding:20px 0;">
+                        <button class="btn btn-ikincil" onclick="rastgeleSoruGetir()">🎲 Yeni Soru</button>
+                    </div>
+                    <div id="soruKutu" style="display:none;">
+                        <div id="soruMetni" style="font-weight:600; font-size:1.1rem; margin-bottom:8px;"></div>
+                        <div id="soruResmi"></div>
+                        <div id="siklar" style="display:flex; flex-wrap:wrap; gap:6px; margin:12px 0;"></div>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                            <button class="btn-kucuk btn" onclick="cevabiKontrolEt()" style="width:auto;">✅ Kontrol Et</button>
+                            <button class="btn-kucuk btn-ikincil" onclick="canvasTemizle()" style="width:auto;">🧹 Kalemi Temizle</button>
+                        </div>
+                        <div id="sonucMesaji" style="font-weight:600; margin:8px 0;"></div>
+                        <div id="cozumLinki" style="margin-top:8px;"></div>
+                        <!-- Kalem alanı -->
+                        <div style="margin:12px 0;">
+                            <canvas id="kalemCanvas" class="canvas-kalem"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -969,9 +1061,10 @@
             motivasyonDegistir();
             geriSayimiGuncelle();
             puanTahminiGuncelle();
-            
             // YENİ: İlerleme çubuklarını güncelle
             ilerlemeCubugunuGuncelle();
+            // Soru çöz canvas'ını başlat
+            canvasBaslat();
         }
 
         // ==========================================================
@@ -1003,7 +1096,6 @@
                     sayacGuncelle();
                     istatistikGuncelle();
                     rozetleriGuncelle();
-                    // İlerleme çubuklarını güncelle
                     ilerlemeCubugunuGuncelle();
                 };
                 liste.appendChild(span);
@@ -1410,25 +1502,87 @@
         // ==========================================================
         //  12. İLERLEME ÇUBUKLARI VE YEDEKLEME (YENİ)
         // ==========================================================
-        // --- Verileri JSON olarak dışa aktar (Yedekle) ---
+
+        // --- PDF olarak yedekle (jsPDF ile) ---
         function verileriDisariAktar() {
             const data = localStorage.getItem('yks_app_data');
             if (!data) {
                 alert('📭 Kaydedilmiş veri bulunamadı!');
                 return;
             }
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `yks_veri_yedek_${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+
+            try {
+                const appData = JSON.parse(data);
+                const user = appData.currentUser;
+                const userData = user ? appData.users[user] : null;
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                let y = 20;
+
+                // Başlık
+                doc.setFontSize(18);
+                doc.setTextColor(214, 51, 108);
+                doc.text('YKS Paneli Yedek', 105, y, { align: 'center' });
+                y += 10;
+                doc.setFontSize(12);
+                doc.setTextColor(50);
+                doc.text(`Kullanıcı: ${user || 'Misafir'}`, 20, y);
+                y += 8;
+                doc.text(`Tarih: ${new Date().toLocaleString()}`, 20, y);
+                y += 12;
+
+                if (userData) {
+                    // Konu bilgileri
+                    const konular = userData.konular || [];
+                    const tamamlananlar = userData.tamamlananlar || [];
+                    doc.text(`📚 Konu Sayısı: ${konular.length} (Tamamlanan: ${tamamlananlar.length})`, 20, y);
+                    y += 8;
+                    doc.text(`📊 Deneme Sayısı: ${(userData.denemeler || []).length}`, 20, y);
+                    y += 8;
+                    const calisma = userData.calismaGunleri || {};
+                    const toplamSaat = Object.values(calisma).reduce((s, v) => s + v, 0);
+                    doc.text(`⏱️ Toplam Çalışma: ${toplamSaat.toFixed(1)} saat`, 20, y);
+                    y += 8;
+                    doc.text(`🎯 Hedef Puan: ${userData.hedefPuan || 'Belirtilmemiş'}`, 20, y);
+                    y += 8;
+                    doc.text(`🏫 Hedef Sıralama: ${userData.hedefSiralama || 'Belirtilmemiş'}`, 20, y);
+                    y += 12;
+
+                    // Konu listesi (kısa)
+                    doc.text('📋 Konu Listesi:', 20, y);
+                    y += 6;
+                    konular.forEach((k, i) => {
+                        const durum = tamamlananlar.includes(k) ? '✅' : '⬜';
+                        doc.text(`${durum} ${k}`, 25, y);
+                        y += 6;
+                        if (y > 270) { doc.addPage(); y = 20; }
+                    });
+                    y += 6;
+
+                    // Deneme geçmişi (özet)
+                    const denemeler = userData.denemeler || [];
+                    if (denemeler.length > 0) {
+                        doc.text('📋 Deneme Geçmişi (son 10):', 20, y);
+                        y += 6;
+                        denemeler.slice(-10).reverse().forEach(d => {
+                            doc.text(`${d.ad || d.tarih.split('T')[0]}  TYT:${d.tyt}  AYT:${d.ayt}`, 25, y);
+                            y += 6;
+                            if (y > 270) { doc.addPage(); y = 20; }
+                        });
+                    }
+                } else {
+                    doc.text('❌ Kullanıcı verisi bulunamadı.', 20, y);
+                }
+
+                // PDF'i indir
+                doc.save(`yks_veri_yedek_${new Date().toISOString().split('T')[0]}.pdf`);
+            } catch (e) {
+                alert('❌ PDF oluşturulurken hata oluştu: ' + e.message);
+            }
         }
 
-        // --- Verileri JSON'dan içe aktar (Yedekten yükle) ---
+        // --- JSON'dan yükle (eski sistem) ---
         function verileriIceriAktar(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1449,7 +1603,7 @@
             event.target.value = ''; // Input'u sıfırla
         }
 
-        // --- Konu ilerleme yüzdesini hesapla ---
+        // --- Konu ilerleme yüzdesi ---
         function ilerlemeYuzdesi() {
             const userData = getCurrentUserData();
             if (!userData) return 0;
@@ -1471,7 +1625,7 @@
             return Math.min(Math.round((bugunSaat / hedef) * 100), 100);
         }
 
-        // --- İlerleme çubuklarını güncelle (HTML'e yazdır) ---
+        // --- İlerleme çubuklarını güncelle ---
         function ilerlemeCubugunuGuncelle() {
             const konuYuzde = ilerlemeYuzdesi();
             const hedefYuzde = hedefTamamlamaOrani();
@@ -1491,6 +1645,211 @@
             }
             if (konuText) konuText.textContent = konuYuzde + '% Tamamlandı';
             if (hedefText) hedefText.textContent = hedefYuzde + '% Tamamlandı';
+        }
+
+        // ==========================================================
+        //  13. SORU ÇÖZ (YENİ)
+        // ==========================================================
+        let mevcutSoru = null;
+        let secilenCevap = null;
+        let canvas = null;
+        let ctx = null;
+        let cizim = false;
+
+        function canvasBaslat() {
+            const canvasEl = document.getElementById('kalemCanvas');
+            if (!canvasEl) return;
+            canvas = canvasEl;
+            ctx = canvas.getContext('2d');
+            
+            // Canvas boyutunu ayarla
+            canvas.width = canvasEl.offsetWidth || 400;
+            canvas.height = 200;
+            
+            // Arka planı temizle
+            canvasTemizle();
+
+            // Mouse / Touch olayları
+            canvas.addEventListener('mousedown', basla);
+            canvas.addEventListener('mousemove', ciz);
+            canvas.addEventListener('mouseup', dur);
+            canvas.addEventListener('mouseleave', dur);
+            canvas.addEventListener('touchstart', baslaTouch, { passive: false });
+            canvas.addEventListener('touchmove', cizTouch, { passive: false });
+            canvas.addEventListener('touchend', dur, { passive: false });
+        }
+
+        function basla(e) {
+            cizim = true;
+            ctx.beginPath();
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            ctx.moveTo(x, y);
+        }
+
+        function ciz(e) {
+            if (!cizim) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = '#d6336c';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+        }
+
+        function baslaTouch(e) {
+            e.preventDefault();
+            cizim = true;
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function cizTouch(e) {
+            e.preventDefault();
+            if (!cizim) return;
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = '#d6336c';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+        }
+
+        function dur(e) {
+            cizim = false;
+        }
+
+        function canvasTemizle() {
+            if (ctx) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = document.body.classList.contains('dark') ? '#2d2d44' : '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function rastgeleSoruGetir() {
+            if (typeof sorular === 'undefined' || !sorular.length) {
+                alert('❌ Sorular yüklenemedi! Lütfen sorular.js dosyasını kontrol edin.');
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * sorular.length);
+            mevcutSoru = sorular[randomIndex];
+            secilenCevap = null;
+            document.getElementById('soruKutu').style.display = 'block';
+            document.getElementById('sonucMesaji').innerHTML = '';
+            document.getElementById('cozumLinki').innerHTML = '';
+
+            // Soru metni
+            document.getElementById('soruMetni').textContent = mevcutSoru.soruMetni;
+
+            // Resim (varsa)
+            const resimDiv = document.getElementById('soruResmi');
+            resimDiv.innerHTML = '';
+            if (mevcutSoru.resimUrl && mevcutSoru.resimUrl.trim() !== '') {
+                const img = document.createElement('img');
+                img.src = mevcutSoru.resimUrl;
+                img.className = 'soru-resim';
+                img.alt = 'Soru görseli';
+                resimDiv.appendChild(img);
+            }
+
+            // Şıklar
+            const siklarDiv = document.getElementById('siklar');
+            siklarDiv.innerHTML = '';
+            const sıklar = mevcutSoru.sıklar || [];
+            sıklar.forEach((sik, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'sik-buton';
+                btn.textContent = `${String.fromCharCode(65 + index)}. ${sik}`;
+                btn.dataset.sik = String.fromCharCode(65 + index);
+                btn.onclick = function() {
+                    // Seçili olanı temizle
+                    document.querySelectorAll('.sik-buton').forEach(b => b.classList.remove('secilen'));
+                    this.classList.add('secilen');
+                    secilenCevap = this.dataset.sik;
+                };
+                siklarDiv.appendChild(btn);
+            });
+
+            // Canvas'ı temizle
+            canvasTemizle();
+        }
+
+        function cevabiKontrolEt() {
+            if (!mevcutSoru) {
+                alert('Önce bir soru getirin.');
+                return;
+            }
+            if (!secilenCevap) {
+                alert('Lütfen bir şık seçin.');
+                return;
+            }
+
+            const sonucDiv = document.getElementById('sonucMesaji');
+            const cozumDiv = document.getElementById('cozumLinki');
+            cozumDiv.innerHTML = '';
+
+            if (secilenCevap === mevcutSoru.dogruCevap) {
+                sonucDiv.innerHTML = '✅ Tebrikler! Doğru cevap! 🎉';
+                sonucDiv.style.color = '#28a745';
+                // Doğru şık yeşil olsun
+                document.querySelectorAll('.sik-buton').forEach(b => {
+                    if (b.dataset.sik === mevcutSoru.dogruCevap) {
+                        b.classList.add('dogru');
+                    }
+                });
+            } else {
+                sonucDiv.innerHTML = '❌ Yanlış cevap. Çözümü inceleyin.';
+                sonucDiv.style.color = '#dc3545';
+                // Yanlışı kırmızı, doğruyu yeşil göster
+                document.querySelectorAll('.sik-buton').forEach(b => {
+                    if (b.dataset.sik === secilenCevap) {
+                        b.classList.add('yanlis');
+                    }
+                    if (b.dataset.sik === mevcutSoru.dogruCevap) {
+                        b.classList.add('dogru');
+                    }
+                });
+                // Çözüm linki
+                if (mevcutSoru.cozumLink && mevcutSoru.cozumLink.trim() !== '') {
+                    let link = mevcutSoru.cozumLink;
+                    // Eğer embed linki değilse, embed yapmaya çalış
+                    if (link.includes('watch?v=')) {
+                        const videoId = link.split('v=')[1]?.split('&')[0];
+                        if (videoId) {
+                            link = `https://www.youtube.com/embed/${videoId}`;
+                        }
+                    }
+                    // Buton ile link aç
+                    const btn = document.createElement('button');
+                    btn.className = 'btn-ikincil btn-kucuk';
+                    btn.textContent = '▶️ Çözümü İzle (YouTube)';
+                    btn.onclick = function() {
+                        window.open(mevcutSoru.cozumLink, '_blank');
+                    };
+                    cozumDiv.appendChild(btn);
+                    // İsteğe bağlı iframe
+                    if (link.includes('youtube.com/embed')) {
+                        const iframe = document.createElement('iframe');
+                        iframe.src = link;
+                        iframe.className = 'cozum-iframe';
+                        iframe.allowFullscreen = true;
+                        cozumDiv.appendChild(iframe);
+                    }
+                } else {
+                    cozumDiv.innerHTML = '<span style="color:#b34a6e;">Çözüm linki bulunamadı.</span>';
+                }
+            }
         }
 
         // ==========================================================
