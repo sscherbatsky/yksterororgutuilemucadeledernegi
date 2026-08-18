@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- jsPDF (PDF için) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Sorular JS -->
+    <!-- Sorular JS (kendi dosyan) -->
     <script src="sorular.js"></script>
     <style>
         /* ===== RESET & BASE ===== */
@@ -49,16 +49,12 @@
             background: #d6336c;
             color: white;
         }
-        body.dark input,
-        body.dark textarea,
-        body.dark select {
+        body.dark input, body.dark textarea, body.dark select {
             background: #3d3d5a;
             color: #e0d6e8;
             border-color: #5a4a6a;
         }
-        body.dark .imza,
-        body.dark .footer-imza,
-        body.dark .ust-bar {
+        body.dark .imza, body.dark .footer-imza, body.dark .ust-bar {
             background: #2d2d44;
             color: #f5a0c0;
             border-color: #4a3a5a;
@@ -283,9 +279,7 @@
         body.dark .input-grup label {
             color: #e0d6e8;
         }
-        .input-grup input,
-        .input-grup select,
-        .input-grup textarea {
+        .input-grup input, .input-grup select, .input-grup textarea {
             width: 100%;
             padding: 10px 16px;
             border-radius: 20px;
@@ -297,9 +291,7 @@
             transition: border 0.2s, box-shadow 0.2s;
             color: #2d1b24;
         }
-        .input-grup input:focus,
-        .input-grup select:focus,
-        .input-grup textarea:focus {
+        .input-grup input:focus, .input-grup select:focus, .input-grup textarea:focus {
             outline: none;
             border-color: #d6336c;
             box-shadow: 0 0 0 4px rgba(214, 51, 108, 0.08);
@@ -476,11 +468,51 @@
         }
 
         /* ===== SORU ÇÖZ (YENİ) ===== */
-        .soru-kutu {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 24px;
-            padding: 16px;
-            margin-bottom: 12px;
+        #toolbar {
+            display: none;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 40px;
+            padding: 8px 14px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(214, 51, 108, 0.1);
+        }
+        #toolbar button {
+            background: rgba(214, 51, 108, 0.1);
+            border: 1px solid rgba(214, 51, 108, 0.2);
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.2s;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        #toolbar button:hover {
+            background: rgba(214, 51, 108, 0.2);
+        }
+        #toolbar input[type="color"] {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            padding: 2px;
+            cursor: pointer;
+            background: transparent;
+        }
+        .canvas-kalem {
+            border: 1px solid rgba(214, 51, 108, 0.2);
+            border-radius: 16px;
+            width: 100%;
+            height: 300px;
+            touch-action: none;
+            background: #fff;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="rgba(214,51,108,0.5)"/></svg>') 12 12, auto;
+        }
+        body.dark .canvas-kalem {
+            background: #2d2d44;
         }
         .soru-resim {
             max-width: 100%;
@@ -516,88 +548,12 @@
             color: white;
             border-color: #dc3545;
         }
-        .canvas-kalem {
-            border: 1px solid rgba(214, 51, 108, 0.2);
-            border-radius: 16px;
-            width: 100%;
-            height: 300px;
-            touch-action: none;
-            background: #fff;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="rgba(214,51,108,0.5)"/></svg>') 12 12, auto;
-        }
-        body.dark .canvas-kalem {
-            background: #2d2d44;
-        }
         .cozum-iframe {
             width: 100%;
             height: 200px;
             border-radius: 16px;
             border: none;
             margin-top: 8px;
-        }
-
-        /* ===== SORU ÇÖZ ARAÇ ÇUBUĞU ===== */
-        #toolbar {
-            display: none;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            border-radius: 60px;
-            padding: 8px 14px;
-            margin: 10px 0;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(214, 51, 108, 0.1);
-        }
-        #toolbar button {
-            background: rgba(214, 51, 108, 0.06);
-            border: 1px solid rgba(214, 51, 108, 0.1);
-            border-radius: 30px;
-            font-weight: 500;
-            padding: 4px 12px;
-            font-size: 0.75rem;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        #toolbar button:hover {
-            background: rgba(214, 51, 108, 0.15);
-        }
-        #toolbar .aktif {
-            background: #d6336c;
-            color: white;
-            border-color: #d6336c;
-        }
-        #toolbar input[type="color"] {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1px solid #ccc;
-            padding: 2px;
-            cursor: pointer;
-            background: none;
-        }
-        #toolbar .boyut-btn {
-            width: auto;
-            padding: 2px 8px;
-            font-size: 0.65rem;
-        }
-        #cozumIpucu {
-            position: absolute;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 4px 14px;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            display: none;
-            pointer-events: none;
-            backdrop-filter: blur(4px);
-        }
-        .canvas-wrapper {
-            position: relative;
-            margin: 12px 0;
         }
 
         /* ===== FOOTER ===== */
@@ -651,8 +607,7 @@
             margin-bottom: 24px;
             font-size: 0.9rem;
         }
-        .login-box input,
-        .login-box select {
+        .login-box input, .login-box select {
             width: 100%;
             padding: 14px 18px;
             border-radius: 40px;
@@ -663,8 +618,7 @@
             font-family: 'Inter', sans-serif;
             transition: border 0.2s;
         }
-        .login-box input:focus,
-        .login-box select:focus {
+        .login-box input:focus, .login-box select:focus {
             outline: none;
             border-color: #d6336c;
             box-shadow: 0 0 0 4px rgba(214, 51, 108, 0.06);
@@ -691,37 +645,14 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 640px) {
-            body {
-                padding: 16px;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 18px;
-            }
-            .ust-bar {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 12px;
-                border-radius: 32px;
-                padding: 16px;
-            }
-            .ust-bar .sag-grup {
-                justify-content: space-between;
-            }
-            .login-box {
-                padding: 28px 20px;
-                margin: 16px;
-            }
-            .input-row {
-                flex-direction: column;
-                gap: 4px;
-            }
-            .canvas-kalem {
-                height: 200px;
-            }
+            body { padding: 16px; }
+            h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; gap: 18px; }
+            .ust-bar { flex-direction: column; align-items: stretch; gap: 12px; border-radius: 32px; padding: 16px; }
+            .ust-bar .sag-grup { justify-content: space-between; }
+            .login-box { padding: 28px 20px; margin: 16px; }
+            .input-row { flex-direction: column; gap: 4px; }
+            .canvas-kalem { height: 200px; }
         }
     </style>
 </head>
@@ -938,7 +869,7 @@
                 </div>
             </div>
 
-            <!-- 11. SORU ÇÖZ (YENİ) -->
+            <!-- 11. SORU ÇÖZ (GÜNCELLENDİ) -->
             <div class="card" style="grid-column: span 1;">
                 <h2>📝 Soru Çöz <span class="kucuk">rastgele</span></h2>
                 <div id="soruAlan">
@@ -947,6 +878,7 @@
                     </div>
                     <div id="soruKutu" style="display:none;">
                         <div id="soruMetni" style="font-weight:600; font-size:1.1rem; margin-bottom:8px;"></div>
+                        <div id="soruResmi"></div>
                         <div id="siklar" style="display:flex; flex-wrap:wrap; gap:6px; margin:12px 0;"></div>
                         <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                             <button class="btn-kucuk btn" onclick="cevabiKontrolEt()" style="width:auto;">✅ Kontrol Et</button>
@@ -954,26 +886,28 @@
                         </div>
                         <div id="sonucMesaji" style="font-weight:600; margin:8px 0;"></div>
                         <div id="cozumLinki" style="margin-top:8px;"></div>
-                        <!-- Araç çubuğu -->
+                        <!-- Araç Çubuğu -->
                         <div id="toolbar">
-                            <div style="display:flex; align-items:center; gap:4px;">
+                            <div style="display:flex; gap:4px; align-items:center;">
                                 <span style="font-size:0.7rem; font-weight:600;">Renk:</span>
                                 <input type="color" id="renkSecici" value="#d6336c">
                             </div>
-                            <div style="display:flex; align-items:center; gap:4px;">
+                            <div style="display:flex; gap:4px; align-items:center;">
                                 <span style="font-size:0.7rem; font-weight:600;">Boyut:</span>
-                                <button class="boyut-btn" data-boyut="2">K</button>
-                                <button class="boyut-btn aktif" data-boyut="4">M</button>
-                                <button class="boyut-btn" data-boyut="8">B</button>
+                                <button class="btn-kucuk" data-boyut="2" style="width:auto; padding:2px 6px; font-size:0.6rem;">K</button>
+                                <button class="btn-kucuk" data-boyut="4" style="width:auto; padding:2px 6px; font-size:0.6rem;">M</button>
+                                <button class="btn-kucuk" data-boyut="6" style="width:auto; padding:2px 6px; font-size:0.6rem;">B</button>
                             </div>
-                            <button id="silgiButon">🧹 Silgi</button>
-                            <button id="cizgiTuruButon">─ Düz</button>
-                            <button onclick="canvasTemizle()">🗑️ Tümünü Sil</button>
+                            <div style="display:flex; gap:4px; align-items:center;">
+                                <button class="btn-kucuk" id="silgiButon" style="width:auto; padding:2px 10px; font-size:0.7rem;">🧹 Silgi</button>
+                                <button class="btn-kucuk" id="cizgiTuruButon" style="width:auto; padding:2px 10px; font-size:0.7rem;">─ Düz</button>
+                            </div>
+                            <button class="btn-kucuk" onclick="canvasTemizle()" style="width:auto; padding:2px 10px; font-size:0.7rem;">🗑️ Tümünü Sil</button>
                         </div>
                         <!-- Canvas -->
-                        <div class="canvas-wrapper">
+                        <div style="margin:12px 0; position:relative;">
                             <canvas id="kalemCanvas" class="canvas-kalem"></canvas>
-                            <div id="cozumIpucu">✏️ Çizim yapabilirsiniz</div>
+                            <div id="cozumIpucu" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); color:white; padding:4px 12px; border-radius:20px; font-size:0.7rem; display:none;">✏️ Çizim yapabilirsiniz</div>
                         </div>
                     </div>
                 </div>
@@ -982,7 +916,7 @@
         </div>
 
         <div class="footer-imza">
-             <strong>Avukat Naz Kaya</strong> için <strong>Doktor Deniz Bozkurt</strong> tarafından hazırlanmıştır. Başarılar diliyorum!
+             <strong>Avukat Naz Kaya</strong> için <strong>Doktor Deniz Bozkurt</strong> tarafından hazırlanmıştır. Başarılar diliyorum! 
         </div>
     </div>
 
@@ -1007,10 +941,9 @@
             const data = getAppData();
             if (!data.users[username]) {
                 data.users[username] = {
-                    konular: ["Türkçe: Paragraf", "Türkçe: Dil Bilgisi", "Matematik: Temel Kavramlar",
-                        "Matematik: Denklemler", "Fizik: Hareket", "Fizik: Enerji",
-                        "Kimya: Atom", "Kimya: Periyodik Tablo", "Biyoloji: Hücre", "Biyoloji: Kalıtım"
-                    ],
+                    konular: ["Türkçe: Paragraf", "Türkçe: Dil Bilgisi", "Matematik: Temel Kavramlar", 
+                               "Matematik: Denklemler", "Fizik: Hareket", "Fizik: Enerji", 
+                               "Kimya: Atom", "Kimya: Periyodik Tablo", "Biyoloji: Hücre", "Biyoloji: Kalıtım"],
                     tamamlananlar: [],
                     denemeler: [],
                     calismaGunleri: {},
@@ -1018,13 +951,7 @@
                     hedefPuan: "",
                     hedefSiralama: "",
                     haftalikPlan: {
-                        pazartesi: "",
-                        sali: "",
-                        carsamba: "",
-                        persembe: "",
-                        cuma: "",
-                        cumartesi: "",
-                        pazar: ""
+                        pazartesi: "", sali: "", carsamba: "", persembe: "", cuma: "", cumartesi: "", pazar: ""
                     },
                     yapilacaklar: [],
                     sifre: "",
@@ -1057,7 +984,7 @@
             const kullanici = document.getElementById('loginKullanici').value.trim();
             const sifre = document.getElementById('loginSifre').value;
             const data = getAppData();
-
+            
             if (!kullanici) {
                 document.getElementById('loginHata').textContent = 'Lütfen kullanıcı adını gir.';
                 return;
@@ -1070,7 +997,7 @@
                 document.getElementById('loginHata').textContent = 'Şifre yanlış!';
                 return;
             }
-
+            
             data.currentUser = kullanici;
             saveAppData(data);
             document.getElementById('loginHata').textContent = '';
@@ -1082,7 +1009,7 @@
             const sifre = document.getElementById('kayitSifre').value;
             const bolum = document.getElementById('kayitBolum').value;
             const data = getAppData();
-
+            
             if (!kullanici) {
                 document.getElementById('kayitHata').textContent = 'Lütfen bir kullanıcı adı gir.';
                 return;
@@ -1091,20 +1018,18 @@
                 document.getElementById('kayitHata').textContent = 'Bu kullanıcı zaten var!';
                 return;
             }
-
+            
             data.users[kullanici] = {
-                konular: ["Türkçe: Paragraf", "Türkçe: Dil Bilgisi", "Matematik: Temel Kavramlar",
-                    "Matematik: Denklemler", "Fizik: Hareket", "Fizik: Enerji",
-                    "Kimya: Atom", "Kimya: Periyodik Tablo", "Biyoloji: Hücre", "Biyoloji: Kalıtım"
-                ],
+                konular: ["Türkçe: Paragraf", "Türkçe: Dil Bilgisi", "Matematik: Temel Kavramlar", 
+                           "Matematik: Denklemler", "Fizik: Hareket", "Fizik: Enerji", 
+                           "Kimya: Atom", "Kimya: Periyodik Tablo", "Biyoloji: Hücre", "Biyoloji: Kalıtım"],
                 tamamlananlar: [],
                 denemeler: [],
                 calismaGunleri: {},
                 notlar: "",
                 hedefPuan: "",
                 hedefSiralama: "",
-                haftalikPlan: { pazartesi: "", sali: "", carsamba: "", persembe: "", cuma: "", cumartesi: "",
-                pazar: "" },
+                haftalikPlan: { pazartesi: "", sali: "", carsamba: "", persembe: "", cuma: "", cumartesi: "", pazar: "" },
                 yapilacaklar: [],
                 sifre: sifre,
                 bolumTuru: bolum
@@ -1148,8 +1073,7 @@
                     document.getElementById('kullaniciBolum').textContent = bolum === 'sayisal' ? '🔬 Sayısal' : '📊 EA';
                     const aytLabel = document.getElementById('aytLabel');
                     aytLabel.textContent = bolum === 'sayisal' ? '📗 Sayısal AYT' : '📗 EA AYT';
-                    document.getElementById('ortalamaAytLabel').textContent = bolum === 'sayisal' ?
-                        '📗 Ort. Sayısal AYT' : '📗 Ort. EA AYT';
+                    document.getElementById('ortalamaAytLabel').textContent = bolum === 'sayisal' ? '📗 Ort. Sayısal AYT' : '📗 Ort. EA AYT';
                 }
                 tumVerileriGoster();
             } else {
@@ -1159,7 +1083,7 @@
         }
 
         // ==========================================================
-        //  TÜM VERİLERİ GÖSTER (Ana fonksiyon)
+        //  TÜM VERİLERİ GÖSTER
         // ==========================================================
         let denemeGrafik = null;
         let grafikTipi = 'cizgi';
@@ -1306,14 +1230,11 @@
                 data: {
                     labels: etiketler.length ? etiketler : ['Henüz yok'],
                     datasets: [
-                        { label: 'TYT', data: tytVeri.length ? tytVeri : [0], borderColor: '#d6336c',
-                            backgroundColor: 'rgba(214,51,108,0.2)', tension: 0.3, fill: true },
-                        { label: 'AYT', data: aytVeri.length ? aytVeri : [0], borderColor: '#f5a0c0',
-                            backgroundColor: 'rgba(245,160,192,0.2)', tension: 0.3, fill: true }
+                        { label: 'TYT', data: tytVeri.length ? tytVeri : [0], borderColor: '#d6336c', backgroundColor: 'rgba(214,51,108,0.2)', tension: 0.3, fill: true },
+                        { label: 'AYT', data: aytVeri.length ? aytVeri : [0], borderColor: '#f5a0c0', backgroundColor: 'rgba(245,160,192,0.2)', tension: 0.3, fill: true }
                     ]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { font: { size: 9 } } } },
-                    scales: { y: { beginAtZero: true, max: 120 } } }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { font: { size: 9 } } } }, scales: { y: { beginAtZero: true, max: 120 } } }
             };
             denemeGrafik = new Chart(ctx, config);
         }
@@ -1349,10 +1270,9 @@
                 document.getElementById('puanTahmini').textContent = '📊 Puan Tahmini: Henüz deneme yok';
                 return;
             }
-            const son = gecmis[gecmis.length - 1];
+            const son = gecmis[gecmis.length-1];
             const tahmin = (son.tyt * 3.3) + (son.ayt * 3.8);
-            document.getElementById('puanTahmini').textContent =
-                `📊 Puan Tahmini: ${Math.round(tahmin)} (TYT:${son.tyt} AYT:${son.ayt})`;
+            document.getElementById('puanTahmini').textContent = `📊 Puan Tahmini: ${Math.round(tahmin)} (TYT:${son.tyt} AYT:${son.ayt})`;
         }
 
         // ==========================================================
@@ -1385,18 +1305,15 @@
 
             document.getElementById('bugunSaat').textContent = calisma[bugun] || 0;
 
-            let haftalik = 0,
-                aylik = 0;
+            let haftalik = 0, aylik = 0;
             const bugunDate = new Date();
             for (let i = 0; i < 7; i++) {
-                const tarih = new Date(bugunDate);
-                tarih.setDate(tarih.getDate() - i);
+                const tarih = new Date(bugunDate); tarih.setDate(tarih.getDate() - i);
                 const key = tarih.toISOString().split('T')[0];
                 if (calisma[key]) haftalik += calisma[key];
             }
             for (let i = 0; i < 30; i++) {
-                const tarih = new Date(bugunDate);
-                tarih.setDate(tarih.getDate() - i);
+                const tarih = new Date(bugunDate); tarih.setDate(tarih.getDate() - i);
                 const key = tarih.toISOString().split('T')[0];
                 if (calisma[key]) aylik += calisma[key];
             }
@@ -1430,7 +1347,7 @@
             document.getElementById('hedefSiralama').value = userData.hedefSiralama || '';
             const puan = userData.hedefPuan;
             const siralama = userData.hedefSiralama;
-            document.getElementById('hedefGoster').innerHTML =
+            document.getElementById('hedefGoster').innerHTML = 
                 (puan ? `🎯 Puan: ${puan} ` : '') + (siralama ? `🏫 ${siralama}` : '');
         }
 
@@ -1493,7 +1410,7 @@
             const plan = userData.haftalikPlan || {};
             const gunler = ['pazartesi', 'sali', 'carsamba', 'persembe', 'cuma', 'cumartesi', 'pazar'];
             gunler.forEach(g => {
-                const el = document.getElementById(`plan${g.charAt(0).toUpperCase() + g.slice(1)}`);
+                const el = document.getElementById(`plan${g.charAt(0).toUpperCase()+g.slice(1)}`);
                 if (el) el.value = plan[g] || '';
             });
         }
@@ -1502,7 +1419,7 @@
             const gunler = ['pazartesi', 'sali', 'carsamba', 'persembe', 'cuma', 'cumartesi', 'pazar'];
             const plan = {};
             gunler.forEach(g => {
-                const el = document.getElementById(`plan${g.charAt(0).toUpperCase() + g.slice(1)}`);
+                const el = document.getElementById(`plan${g.charAt(0).toUpperCase()+g.slice(1)}`);
                 plan[g] = el ? el.value : '';
             });
             saveCurrentUserData({ haftalikPlan: plan });
@@ -1551,8 +1468,8 @@
             if (denemeler.length >= 5) rozetler.push('🏅 5 Deneme');
             if (denemeler.length >= 10) rozetler.push('🥈 10 Deneme');
             if (denemeler.length >= 20) rozetler.push('🥇 20 Deneme');
-            if (denemeler.length > 0 && denemeler[denemeler.length - 1].tyt >= 100) rozetler.push('🌟 TYT 100+');
-            if (denemeler.length > 0 && denemeler[denemeler.length - 1].tyt >= 120) rozetler.push('👑 TYT FULL!');
+            if (denemeler.length > 0 && denemeler[denemeler.length-1].tyt >= 100) rozetler.push('🌟 TYT 100+');
+            if (denemeler.length > 0 && denemeler[denemeler.length-1].tyt >= 120) rozetler.push('👑 TYT FULL!');
             if (toplamCalisma >= 50) rozetler.push('⏳ 50 Saat');
             if (toplamCalisma >= 100) rozetler.push('🔥 100 Saat');
             if (konular.length > 0 && tamamlananlar.length === konular.length) rozetler.push('✅ Tüm Konular Tam');
@@ -1589,7 +1506,7 @@
             const dakika = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
             const saniye = Math.floor((fark % (1000 * 60)) / 1000);
 
-            document.getElementById('geriSayim').textContent =
+            document.getElementById('geriSayim').textContent = 
                 `🎯 YKS: ${gun}g ${saat}s ${dakika}d ${saniye}sn`;
         }
 
@@ -1627,7 +1544,6 @@
         // ==========================================================
         //  12. İLERLEME ÇUBUKLARI VE YEDEKLEME
         // ==========================================================
-
         function verileriDisariAktar() {
             const data = localStorage.getItem('yks_app_data');
             if (!data) {
@@ -1677,8 +1593,7 @@
                         const durum = tamamlananlar.includes(k) ? '✅' : '⬜';
                         doc.text(`${durum} ${k}`, 25, y);
                         y += 6;
-                        if (y > 270) { doc.addPage();
-                            y = 20; }
+                        if (y > 270) { doc.addPage(); y = 20; }
                     });
                     y += 6;
 
@@ -1687,11 +1602,9 @@
                         doc.text('📋 Deneme Geçmişi (son 10):', 20, y);
                         y += 6;
                         denemeler.slice(-10).reverse().forEach(d => {
-                            doc.text(`${d.ad || d.tarih.split('T')[0]}  TYT:${d.tyt}  AYT:${d.ayt}`,
-                            25, y);
+                            doc.text(`${d.ad || d.tarih.split('T')[0]}  TYT:${d.tyt}  AYT:${d.ayt}`, 25, y);
                             y += 6;
-                            if (y > 270) { doc.addPage();
-                                y = 20; }
+                            if (y > 270) { doc.addPage(); y = 20; }
                         });
                     }
                 } else {
@@ -1747,12 +1660,12 @@
         function ilerlemeCubugunuGuncelle() {
             const konuYuzde = ilerlemeYuzdesi();
             const hedefYuzde = hedefTamamlamaOrani();
-
+            
             const konuBar = document.getElementById('konuIlerlemeBar');
             const hedefBar = document.getElementById('hedefIlerlemeBar');
             const konuText = document.getElementById('konuIlerlemeText');
             const hedefText = document.getElementById('hedefIlerlemeText');
-
+            
             if (konuBar) {
                 konuBar.style.width = konuYuzde + '%';
                 konuBar.textContent = konuYuzde + '%';
@@ -1766,7 +1679,7 @@
         }
 
         // ==========================================================
-        //  13. SORU ÇÖZ (YENİ)
+        //  13. SORU ÇÖZ (GÜNCELLENDİ)
         // ==========================================================
         let mevcutSoru = null;
         let secilenCevap = null;
@@ -1775,21 +1688,21 @@
         let cizim = false;
         let silgiModu = false;
         let cizgiTuru = 'duz';
-        let cizimBoyutu = 4;
+        let cizimBoyutu = 3;
         let cizimRengi = '#d6336c';
-        let sonX = 0,
-            sonY = 0;
+        let sonX = 0, sonY = 0;
+        let basinc = 1;
 
         function canvasBaslat() {
             const canvasEl = document.getElementById('kalemCanvas');
             if (!canvasEl) return;
             canvas = canvasEl;
             ctx = canvas.getContext('2d');
-
+            
             canvas.width = canvasEl.offsetWidth || 400;
             canvas.height = 300;
             canvas.style.height = '300px';
-
+            
             canvasTemizle();
 
             canvas.addEventListener('mousedown', basla);
@@ -1799,38 +1712,6 @@
             canvas.addEventListener('touchstart', baslaTouch, { passive: false });
             canvas.addEventListener('touchmove', cizTouch, { passive: false });
             canvas.addEventListener('touchend', dur, { passive: false });
-
-            // Araç çubuğu olayları
-            document.querySelectorAll('[data-boyut]').forEach(btn => {
-                btn.onclick = function() {
-                    document.querySelectorAll('[data-boyut]').forEach(b => b.classList.remove('aktif'));
-                    this.classList.add('aktif');
-                    cizimBoyutu = parseInt(this.dataset.boyut);
-                };
-            });
-            document.getElementById('renkSecici').onchange = function() {
-                cizimRengi = this.value;
-                if (silgiModu) {
-                    silgiModu = false;
-                    document.getElementById('silgiButon').textContent = '🧹 Silgi';
-                }
-            };
-            document.getElementById('silgiButon').onclick = function() {
-                silgiModu = !silgiModu;
-                this.textContent = silgiModu ? '✏️ Kalem' : '🧹 Silgi';
-                this.classList.toggle('aktif');
-                if (silgiModu) {
-                    document.getElementById('renkSecici').disabled = true;
-                } else {
-                    document.getElementById('renkSecici').disabled = false;
-                }
-            };
-            document.getElementById('cizgiTuruButon').onclick = function() {
-                if (cizgiTuru === 'duz') cizgiTuru = 'kesikli';
-                else if (cizgiTuru === 'kesikli') cizgiTuru = 'noktali';
-                else cizgiTuru = 'duz';
-                this.textContent = cizgiTuru === 'duz' ? '─ Düz' : cizgiTuru === 'kesikli' ? '─ Kesik' : '─ Noktalı';
-            };
         }
 
         function canvasTemizle() {
@@ -1852,9 +1733,7 @@
                 const y = (canvas.height - h) / 2;
                 ctx.drawImage(img, x, y, w, h);
             };
-            img.onerror = function() {
-                // resim yoksa boş bırak
-            };
+            img.onerror = function() {};
         }
 
         function basla(e) {
@@ -1902,6 +1781,12 @@
             const rect = canvas.getBoundingClientRect();
             sonX = touch.clientX - rect.left;
             sonY = touch.clientY - rect.top;
+            if (touch.force && touch.force > 0) {
+                basinc = Math.min(touch.force * 2, 1);
+                ctx.lineWidth = cizimBoyutu * basinc;
+            } else {
+                ctx.lineWidth = cizimBoyutu;
+            }
             ctx.beginPath();
             ctx.moveTo(sonX, sonY);
             if (silgiModu) {
@@ -1909,7 +1794,6 @@
                 ctx.lineWidth = 20;
             } else {
                 ctx.globalCompositeOperation = 'source-over';
-                ctx.lineWidth = cizimBoyutu;
                 ctx.strokeStyle = cizimRengi;
             }
             ctx.lineCap = 'round';
@@ -1931,6 +1815,10 @@
             const rect = canvas.getBoundingClientRect();
             const x = touch.clientX - rect.left;
             const y = touch.clientY - rect.top;
+            if (touch.force && touch.force > 0) {
+                basinc = Math.min(touch.force * 2, 1);
+                ctx.lineWidth = cizimBoyutu * basinc;
+            }
             ctx.lineTo(x, y);
             ctx.stroke();
             sonX = x;
@@ -1948,10 +1836,28 @@
         function soruCozModu() {
             const toolbar = document.getElementById('toolbar');
             toolbar.style.display = 'flex';
-            document.getElementById('cozumIpucu').style.display = 'block';
+            const ipucu = document.getElementById('cozumIpucu');
+            ipucu.style.display = 'block';
             canvasTemizle();
-            // Eğer daha önce başlatılmadıysa canvas'ı başlat
-            if (!ctx) canvasBaslat();
+            document.querySelectorAll('[data-boyut]').forEach(btn => {
+                btn.onclick = function() {
+                    cizimBoyutu = parseInt(this.dataset.boyut);
+                };
+            });
+            document.getElementById('renkSecici').onchange = function() {
+                cizimRengi = this.value;
+            };
+            document.getElementById('silgiButon').onclick = function() {
+                silgiModu = !silgiModu;
+                this.textContent = silgiModu ? '✏️ Kalem' : '🧹 Silgi';
+                this.classList.toggle('btn-ikincil');
+            };
+            document.getElementById('cizgiTuruButon').onclick = function() {
+                if (cizgiTuru === 'duz') cizgiTuru = 'kesikli';
+                else if (cizgiTuru === 'kesikli') cizgiTuru = 'noktali';
+                else cizgiTuru = 'duz';
+                this.textContent = cizgiTuru === 'duz' ? '─ Düz' : cizgiTuru === 'kesikli' ? '─ Kesik' : '─ Noktalı';
+            };
         }
 
         function rastgeleSoruGetir() {
@@ -1969,6 +1875,19 @@
             document.getElementById('cozumIpucu').style.display = 'none';
 
             document.getElementById('soruMetni').textContent = mevcutSoru.soruMetni;
+
+            const resimDiv = document.getElementById('soruResmi');
+            resimDiv.innerHTML = '';
+            if (mevcutSoru.resim && mevcutSoru.resim.trim() !== '') {
+                const img = document.createElement('img');
+                img.src = `fotoğraflar/${mevcutSoru.resim}`;
+                img.className = 'soru-resim';
+                img.alt = 'Soru görseli';
+                img.onerror = function() {
+                    this.style.display = 'none';
+                };
+                resimDiv.appendChild(img);
+            }
 
             const siklarDiv = document.getElementById('siklar');
             siklarDiv.innerHTML = '';
